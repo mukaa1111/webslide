@@ -1,15 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { renderInline } from "@/lib/renderInline";
 
 interface Props {
   notes: string | null;
+}
+
+function cleanNotes(raw: string): string {
+  return raw
+    .replace(/<\/?notes>/gi, '')
+    .trim();
 }
 
 export function NotesPanel({ notes }: Props) {
   const [open, setOpen] = useState(false);
 
   if (!notes) return null;
+
+  const cleaned = cleanNotes(notes);
+  if (!cleaned) return null;
 
   return (
     <div style={{ borderTop: "1px solid var(--line-subtle)", marginTop: 24 }}>
@@ -44,14 +54,12 @@ export function NotesPanel({ notes }: Props) {
             background: "var(--surface-subtle)",
             borderRadius: "var(--radius-lg)",
             fontSize: 14,
-            lineHeight: 1.6,
+            lineHeight: 1.7,
             color: "var(--label-neutral)",
-            whiteSpace: "pre-wrap",
             marginBottom: 16,
           }}
-        >
-          {notes}
-        </div>
+          dangerouslySetInnerHTML={{ __html: renderInline(cleaned).replace(/\n/g, '<br/>') }}
+        />
       )}
     </div>
   );
