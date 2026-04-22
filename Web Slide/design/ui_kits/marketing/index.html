@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wanted · Marketing UI Kit</title>
+<meta name="viewport" content="width=1280">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  /* ===========================================================
+     Wanted Marketing UI Kit
+     Landing-page and brand-surface building blocks. Leans on
+     Wanted Sans for display type, generous radii (--radius-card),
+     and the blue→violet brand gradient.
+  =========================================================== */
+  html, body { background: var(--c-neutral-50); }
+  body { padding: 0 0 120px; }
+
+  .page { max-width: 1200px; margin: 0 auto; padding: 56px 40px 0; }
+
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line-subtle);
+    margin-bottom: 48px;
+  }
+  .page-header h1 { font: var(--font-title-1); font-weight: 700; letter-spacing: var(--font-title-tracking); }
+  .page-header p { margin: 6px 0 0; color: var(--label-alternative); max-width: 520px; font: var(--font-body-md); }
+  .page-header .meta {
+    font: var(--font-label-sm);
+    font-weight: 600;
+    color: var(--label-alternative);
+    text-align: right;
+  }
+  .page-header .meta strong {
+    display: block;
+    font: var(--font-heading-2);
+    font-weight: 700;
+    color: var(--label-strong);
+    margin-bottom: 2px;
+  }
+
+  section.kit { margin-bottom: 64px; }
+  section.kit > header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 24px; margin-bottom: 16px;
+  }
+  section.kit > header h2 {
+    font: var(--font-title-3);
+    font-weight: 700;
+    letter-spacing: var(--font-title-tracking);
+  }
+  section.kit > header .tag {
+    font: var(--font-caption);
+    font-weight: 600;
+    color: var(--label-alternative);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .panel {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-normal);
+    border: 1px solid var(--line-subtle);
+    background: var(--c-neutral-0);
+  }
+  .panel .caption {
+    display: flex; justify-content: space-between; gap: 16px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line-subtle);
+    font: var(--font-label-sm);
+    font-weight: 600;
+    color: var(--label-alternative);
+    background: var(--c-neutral-0);
+  }
+  .panel .caption code { background: transparent; padding: 0; color: var(--label-neutral); font: var(--font-caption); }
+
+  /* ===========================================================
+     TOP NAV BAR
+  =========================================================== */
+  .topnav {
+    display: flex; align-items: center; gap: 32px;
+    padding: 16px 28px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .topnav .logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.04em;
+    color: var(--c-neutral-950);
+  }
+  .topnav .logo span { color: var(--c-blue-500); }
+  .topnav nav { display: flex; gap: 4px; }
+  .topnav nav a {
+    padding: 8px 12px;
+    font: var(--font-body-sm);
+    font-weight: 600;
+    color: var(--label-neutral);
+    border-radius: var(--radius-sm);
+  }
+  .topnav nav a:hover { background: var(--surface-subtle); color: var(--label-strong); opacity: 1; }
+  .topnav nav a.active { color: var(--label-strong); }
+  .topnav .actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .topnav .btn {
+    appearance: none; border: 0; cursor: pointer;
+    height: 36px; padding: 0 14px; border-radius: var(--radius-md);
+    font: var(--font-body-sm); font-weight: 700;
+    background: var(--c-neutral-950); color: var(--c-neutral-0);
+  }
+  .topnav .btn.ghost { background: transparent; color: var(--label-strong); }
+  .topnav .btn.ghost:hover { background: var(--surface-subtle); }
+
+  /* ===========================================================
+     HERO
+  =========================================================== */
+  .hero {
+    position: relative;
+    padding: 96px 48px 88px;
+    background: var(--c-neutral-0);
+    overflow: hidden;
+  }
+  .hero .grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: var(--font-label-md);
+    font-weight: 700;
+    color: var(--c-blue-600);
+    background: var(--c-blue-50);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 20px;
+  }
+  .hero .eyebrow::before {
+    content: ""; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--c-blue-500);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 5.4vw, 72px);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: var(--c-neutral-950);
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(96deg, var(--c-blue-500) 0%, var(--c-violet-500) 55%, var(--c-violet-400) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lede {
+    font: var(--font-body-lg);
+    font-size: 18px;
+    color: var(--label-neutral);
+    max-width: 440px;
+    margin-bottom: 32px;
+  }
+  .hero .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero .cta {
+    appearance: none; border: 0; cursor: pointer;
+    height: 56px; padding: 0 24px;
+    font: var(--font-body-lg); font-weight: 700;
+    border-radius: var(--radius-lg);
+    background: var(--c-neutral-950);
+    color: var(--c-neutral-0);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .hero .cta.ghost {
+    background: transparent;
+    color: var(--label-strong);
+    border: 1px solid var(--line-default);
+  }
+  .hero .trust {
+    margin-top: 36px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .hero .trust .avatars { display: inline-flex; }
+  .hero .trust .avatars span {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--c-blue-500);
+    color: #fff;
+    font: var(--font-caption); font-weight: 700;
+    display: grid; place-items: center;
+    box-shadow: 0 0 0 2px var(--c-neutral-0);
+    margin-left: -8px;
+  }
+  .hero .trust .avatars span:nth-child(1) { background: var(--c-blue-500); margin-left: 0; }
+  .hero .trust .avatars span:nth-child(2) { background: var(--c-violet-500); }
+  .hero .trust .avatars span:nth-child(3) { background: var(--c-green-500); }
+  .hero .trust .avatars span:nth-child(4) { background: var(--c-neutral-950); }
+
+  .hero .visual {
+    position: relative;
+    height: 440px;
+  }
+  .hero .visual .blob {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-card);
+    background:
+      radial-gradient(120% 100% at 10% 10%, #3385FF 0%, transparent 55%),
+      linear-gradient(135deg, var(--c-blue-500) 0%, var(--c-violet-500) 100%);
+  }
+  .hero .visual .card1, .hero .visual .card2, .hero .visual .card3 {
+    position: absolute;
+    background: var(--c-neutral-0);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-strong);
+    padding: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .hero .visual .card1 {
+    top: 36px; left: 32px;
+    width: 220px;
+  }
+  .hero .visual .card2 {
+    bottom: 60px; right: 32px;
+    width: 240px;
+  }
+  .hero .visual .card3 {
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-4deg);
+    width: 200px;
+  }
+  .hero .visual .card1 .hd, .hero .visual .card2 .hd, .hero .visual .card3 .hd {
+    display: flex; gap: 8px; align-items: center;
+    font: var(--font-caption); color: var(--label-alternative);
+  }
+  .hero .visual .card1 .hd::before, .hero .visual .card2 .hd::before, .hero .visual .card3 .hd::before {
+    content: ""; width: 20px; height: 20px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--c-blue-500), var(--c-violet-500));
+  }
+  .hero .visual .card1 .t, .hero .visual .card2 .t, .hero .visual .card3 .t {
+    font: var(--font-heading-2);
+    font-weight: 700;
+    color: var(--label-strong);
+  }
+  .hero .visual .card1 .m, .hero .visual .card2 .m, .hero .visual .card3 .m {
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .hero .visual .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font: var(--font-caption); font-weight: 700;
+    background: var(--c-green-50); color: var(--c-green-600);
+    padding: 2px 8px; border-radius: var(--radius-pill);
+    width: fit-content;
+  }
+
+  /* ===========================================================
+     LOGO WALL
+  =========================================================== */
+  .logos {
+    padding: 40px 48px;
+    background: var(--c-neutral-50);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+  }
+  .logos .lbl {
+    text-align: center;
+    font: var(--font-label-md);
+    font-weight: 600;
+    color: var(--label-alternative);
+    margin-bottom: 24px;
+    letter-spacing: 0.04em;
+  }
+  .logos .row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 32px;
+    align-items: center;
+    justify-items: center;
+  }
+  .logos .name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.03em;
+    color: var(--c-neutral-700);
+    opacity: 0.55;
+    transition: opacity .2s, color .2s;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .logos .name:hover { opacity: 1; color: var(--c-neutral-950); }
+  .logos .name.k { font-weight: 900; font-style: italic; }
+
+  /* ===========================================================
+     STATS
+  =========================================================== */
+  .stats-band {
+    padding: 56px 48px;
+    background: var(--c-neutral-950);
+    color: var(--c-neutral-0);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .stats-band .stat .n {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    background: linear-gradient(120deg, #fff 0%, #7FB1FB 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .stats-band .stat .l {
+    margin-top: 10px;
+    font: var(--font-body-sm);
+    color: rgba(255,255,255,0.6);
+    max-width: 220px;
+  }
+
+  /* ===========================================================
+     FEATURE CARDS
+  =========================================================== */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .feature {
+    padding: 28px;
+    border-radius: var(--radius-xl);
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    display: flex; flex-direction: column; gap: 12px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feature:hover { transform: translateY(-3px); box-shadow: var(--shadow-strong); }
+  .feature .ico {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--c-blue-50);
+    display: grid; place-items: center;
+    color: var(--c-blue-500);
+  }
+  .feature.violet .ico { background: var(--c-violet-50); color: var(--c-violet-500); }
+  .feature.green  .ico { background: var(--c-green-50);  color: var(--c-green-500); }
+  .feature h3 {
+    font: var(--font-heading-1);
+    font-weight: 700;
+    letter-spacing: var(--font-heading-tracking);
+    color: var(--label-strong);
+  }
+  .feature p {
+    font: var(--font-body-sm);
+    color: var(--label-neutral);
+    margin: 0;
+  }
+  .feature a {
+    margin-top: auto;
+    font: var(--font-label-md);
+    font-weight: 700;
+    display: inline-flex; gap: 6px; align-items: center;
+    color: var(--label-strong);
+  }
+
+  /* ===========================================================
+     TESTIMONIAL
+  =========================================================== */
+  .quote {
+    padding: 56px 48px;
+    background:
+      radial-gradient(100% 140% at 0% 0%, var(--c-blue-50) 0%, transparent 60%),
+      var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 28px;
+  }
+  .quote .mark {
+    font-family: var(--font-display);
+    font-size: 96px;
+    color: var(--c-blue-500);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+  }
+  .quote blockquote {
+    margin: 0;
+    font: var(--font-title-3);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--label-strong);
+    text-wrap: balance;
+  }
+  .quote .who {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 16px;
+  }
+  .quote .who .av {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--c-violet-500); color: #fff;
+    display: grid; place-items: center;
+    font: var(--font-label-md); font-weight: 700;
+  }
+  .quote .who .n {
+    font: var(--font-label-md); font-weight: 700;
+    color: var(--label-strong);
+  }
+  .quote .who .r {
+    font: var(--font-caption); color: var(--label-alternative);
+  }
+  .quote .stars { font-size: 20px; color: var(--c-yellow-400); letter-spacing: 2px; }
+
+  /* ===========================================================
+     PRICING
+  =========================================================== */
+  .pricing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .plan {
+    padding: 32px 28px;
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .plan .ribbon {
+    font: var(--font-caption);
+    font-weight: 700;
+    color: var(--label-alternative);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .plan h3 {
+    font: var(--font-title-2);
+    font-weight: 700;
+    letter-spacing: var(--font-title-tracking);
+    color: var(--label-strong);
+  }
+  .plan .price {
+    display: flex; align-items: baseline; gap: 6px;
+    margin: 4px 0 8px;
+  }
+  .plan .price .n {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: var(--label-strong);
+    line-height: 1;
+  }
+  .plan .price .u {
+    font: var(--font-body-sm); color: var(--label-alternative);
+  }
+  .plan ul {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .plan li {
+    font: var(--font-body-sm);
+    color: var(--label-neutral);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .plan li::before {
+    content: "";
+    width: 18px; height: 18px; flex-shrink: 0;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066FF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") center/contain no-repeat;
+    margin-top: 1px;
+  }
+  .plan .btn {
+    appearance: none; border: 0; cursor: pointer;
+    margin-top: auto;
+    height: 48px;
+    border-radius: var(--radius-md);
+    font: var(--font-body-md);
+    font-weight: 700;
+    background: var(--c-neutral-0);
+    color: var(--label-strong);
+    border: 1px solid var(--line-default);
+  }
+  .plan.featured {
+    background: linear-gradient(160deg, var(--c-neutral-950) 0%, #0b1438 100%);
+    border-color: transparent;
+    color: var(--c-neutral-0);
+    position: relative;
+    box-shadow: var(--shadow-strong);
+  }
+  .plan.featured::after {
+    content: "Most popular";
+    position: absolute; top: 20px; right: 20px;
+    font: var(--font-caption); font-weight: 700;
+    background: var(--c-blue-500);
+    color: #fff;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+  }
+  .plan.featured .ribbon { color: rgba(255,255,255,0.6); }
+  .plan.featured h3 { color: #fff; }
+  .plan.featured .price .n { color: #fff; }
+  .plan.featured .price .u { color: rgba(255,255,255,0.5); }
+  .plan.featured li { color: rgba(255,255,255,0.85); }
+  .plan.featured li::before {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") center/contain no-repeat;
+  }
+  .plan.featured .btn { background: #fff; color: var(--label-strong); border: 0; }
+
+  /* ===========================================================
+     CTA BANNER
+  =========================================================== */
+  .cta-banner {
+    padding: 72px 48px;
+    border-radius: var(--radius-card);
+    background:
+      radial-gradient(70% 100% at 100% 0%, rgba(151,71,255,0.55) 0%, transparent 60%),
+      radial-gradient(80% 120% at 0% 100%, rgba(0,152,178,0.4) 0%, transparent 55%),
+      linear-gradient(135deg, var(--c-blue-500) 0%, var(--c-violet-500) 100%);
+    color: var(--c-neutral-0);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-banner::before, .cta-banner::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .cta-banner::before { width: 280px; height: 280px; top: -120px; right: -60px; }
+  .cta-banner::after  { width: 200px; height: 200px; bottom: -100px; left: 40px; }
+  .cta-banner h2 {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: #fff;
+    max-width: 640px;
+    margin: 0 auto 16px;
+    line-height: 1.1;
+    position: relative;
+  }
+  .cta-banner p {
+    font: var(--font-body-lg);
+    color: rgba(255,255,255,0.8);
+    margin: 0 auto 28px;
+    max-width: 480px;
+    position: relative;
+  }
+  .cta-banner .ctas { display: inline-flex; gap: 12px; position: relative; }
+  .cta-banner .cta {
+    appearance: none; border: 0; cursor: pointer;
+    height: 56px; padding: 0 28px;
+    font: var(--font-body-lg); font-weight: 700;
+    border-radius: var(--radius-pill);
+    background: #fff; color: var(--c-neutral-950);
+  }
+  .cta-banner .cta.ghost {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.28);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ===========================================================
+     FOOTER
+  =========================================================== */
+  .footer {
+    padding: 56px 48px 32px;
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    display: grid;
+    grid-template-columns: 1.4fr repeat(4, 1fr);
+    gap: 40px;
+  }
+  .footer .brand .logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--c-neutral-950);
+    letter-spacing: -0.04em;
+    margin-bottom: 12px;
+  }
+  .footer .brand .logo span { color: var(--c-blue-500); }
+  .footer .brand p {
+    font: var(--font-body-sm);
+    color: var(--label-alternative);
+    margin: 0 0 18px;
+    max-width: 280px;
+  }
+  .footer .brand .socials { display: flex; gap: 8px; }
+  .footer .brand .socials a {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--surface-subtle);
+    display: grid; place-items: center;
+    color: var(--label-neutral);
+  }
+  .footer h4 {
+    font: var(--font-label-md);
+    font-weight: 700;
+    color: var(--label-strong);
+    margin-bottom: 14px;
+  }
+  .footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .footer ul a {
+    font: var(--font-body-sm);
+    color: var(--label-alternative);
+    font-weight: 500;
+  }
+  .footer ul a:hover { color: var(--label-strong); opacity: 1; }
+
+  .footer-bar {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line-subtle);
+    margin-top: 16px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="page-header">
+    <div>
+      <h1>Marketing UI Kit</h1>
+      <p>Landing-page blocks — hero, logo wall, stats, features, testimonial, pricing, CTA banner, footer. Uses Wanted Sans for display and the blue→violet brand gradient.</p>
+    </div>
+    <div class="meta">
+      <strong>v1.0</strong>
+      Wanted · Marketing surface
+    </div>
+  </header>
+
+  <!-- ============================================================
+       TOP NAV
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Top navigation</h2><span class="tag">.topnav</span></header>
+    <div class="panel">
+      <div class="topnav">
+        <div class="logo">wanted<span>.</span></div>
+        <nav>
+          <a class="active">Jobs</a>
+          <a>Companies</a>
+          <a>Events</a>
+          <a>Resume Match</a>
+          <a>For Teams</a>
+        </nav>
+        <div class="actions">
+          <button class="btn ghost">Log in</button>
+          <button class="btn">Get started</button>
+        </div>
+      </div>
+      <div class="caption">Marketing top nav<code>.topnav</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Hero</h2><span class="tag">.hero</span></header>
+    <div class="panel">
+      <div class="hero">
+        <div class="grid">
+          <div>
+            <span class="eyebrow">AI-matched · 1.2M active roles</span>
+            <h1>Your next role,<br><em>matched in a week.</em></h1>
+            <p class="lede">Wanted pairs your experience with roles across Seoul, Tokyo and SF — and tells hiring managers why you fit before you even apply.</p>
+            <div class="ctas">
+              <button class="cta">
+                Find my matches
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+              <button class="cta ghost">See how it works</button>
+            </div>
+            <div class="trust">
+              <span class="avatars"><span>HJ</span><span>KM</span><span>SY</span><span>+</span></span>
+              Joined by <strong style="color:var(--label-strong)">384,000+</strong> professionals this year
+            </div>
+          </div>
+          <div class="visual">
+            <div class="blob"></div>
+            <div class="card1">
+              <div class="hd">Wanted Lab</div>
+              <div class="t">Senior Product Designer</div>
+              <div class="m">Seoul · Hybrid · 5+ yrs</div>
+              <span class="badge">● 92% match</span>
+            </div>
+            <div class="card3">
+              <div class="hd">Toss</div>
+              <div class="t">Growth Marketer</div>
+              <div class="m">Seoul · ₩70–95M</div>
+            </div>
+            <div class="card2">
+              <div class="hd">Kakao Enterprise</div>
+              <div class="t">Staff ML Engineer</div>
+              <div class="m">Pangyo · Remote OK</div>
+              <span class="badge" style="background:var(--c-violet-50);color:var(--c-violet-600)">● AI-matched</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">Split hero with floating job cards<code>.hero &gt; .grid + .visual</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LOGO WALL
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Logo wall</h2><span class="tag">.logos</span></header>
+    <div class="logos">
+      <div class="lbl">TRUSTED BY TEAMS AT</div>
+      <div class="row">
+        <span class="name">Toss</span>
+        <span class="name k">KAKAO</span>
+        <span class="name">NAVER</span>
+        <span class="name">COUPANG</span>
+        <span class="name">SAMSUNG</span>
+        <span class="name">LG CNS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Stats band</h2><span class="tag">.stats-band</span></header>
+    <div class="panel" style="border:0">
+      <div class="stats-band">
+        <div class="stat"><div class="n">1.2M</div><div class="l">active roles across APAC</div></div>
+        <div class="stat"><div class="n">7 days</div><div class="l">average time to first interview</div></div>
+        <div class="stat"><div class="n">89%</div><div class="l">of matches rated "highly relevant"</div></div>
+        <div class="stat"><div class="n">384K+</div><div class="l">professionals joined in 2024</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURES
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Feature cards</h2><span class="tag">.features &gt; .feature</span></header>
+    <div class="features">
+      <div class="feature">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </div>
+        <h3>Smarter matching</h3>
+        <p>Our model reads your resume, portfolio, and past interviews to surface only roles you'd actually take.</p>
+        <a>Learn more →</a>
+      </div>
+      <div class="feature violet">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 5.8L20.5 9l-4.6 4 1.5 6.5L12 16l-5.4 3.5L8.1 13 3.5 9l6.1-1.2z"/></svg>
+        </div>
+        <h3>Recruiter-ready profile</h3>
+        <p>One profile, one click. We translate it into local market expectations automatically.</p>
+        <a>See example →</a>
+      </div>
+      <div class="feature green">
+        <div class="ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11a8 8 0 1 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="11" r="3"/></svg>
+        </div>
+        <h3>Relocation &amp; visa</h3>
+        <p>Filter to jobs that sponsor — including roles in Japan, Singapore, and the US.</p>
+        <a>Browse now →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIAL
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Testimonial</h2><span class="tag">.quote</span></header>
+    <div class="quote">
+      <div class="mark">&ldquo;</div>
+      <div>
+        <blockquote>I applied to three of Wanted's matches and got two offers — from companies I'd never even heard of. The fit was uncanny.</blockquote>
+        <div class="who">
+          <div class="av">HJ</div>
+          <div>
+            <div class="n">Hyejin Park</div>
+            <div class="r">Product Designer · Now at Toss</div>
+          </div>
+        </div>
+      </div>
+      <div class="stars">★★★★★</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRICING
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Pricing</h2><span class="tag">.pricing &gt; .plan</span></header>
+    <div class="pricing">
+      <div class="plan">
+        <div class="ribbon">Free</div>
+        <h3>Candidate</h3>
+        <div class="price"><span class="n">₩0</span><span class="u">/ forever</span></div>
+        <ul>
+          <li>Unlimited job matches</li>
+          <li>Basic resume builder</li>
+          <li>3 applications per week</li>
+        </ul>
+        <button class="btn">Get started</button>
+      </div>
+      <div class="plan featured">
+        <div class="ribbon">Pro</div>
+        <h3>Candidate Plus</h3>
+        <div class="price"><span class="n">₩19,000</span><span class="u">/ month</span></div>
+        <ul>
+          <li>Everything in Candidate</li>
+          <li>AI cover letter assistant</li>
+          <li>Unlimited applications</li>
+          <li>Priority recruiter visibility</li>
+          <li>Interview coaching credits</li>
+        </ul>
+        <button class="btn">Start 14-day trial</button>
+      </div>
+      <div class="plan">
+        <div class="ribbon">Teams</div>
+        <h3>For Employers</h3>
+        <div class="price"><span class="n">Custom</span></div>
+        <ul>
+          <li>Branded company page</li>
+          <li>ATS integrations</li>
+          <li>Dedicated CSM</li>
+          <li>Market salary benchmarks</li>
+        </ul>
+        <button class="btn">Talk to sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA BANNER
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>CTA banner</h2><span class="tag">.cta-banner</span></header>
+    <div class="cta-banner">
+      <h2>Stop scrolling job boards.<br>Start getting matched.</h2>
+      <p>Your next role is probably already waiting for you on Wanted. Takes 90 seconds to find out.</p>
+      <div class="ctas">
+        <button class="cta">Create my profile</button>
+        <button class="cta ghost">Talk to sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <section class="kit">
+    <header><h2>Footer</h2><span class="tag">.footer</span></header>
+    <footer class="footer">
+      <div class="brand">
+        <div class="logo">wanted<span>.</span></div>
+        <p>Career discovery for APAC professionals. Built in Seoul, loved in Tokyo, Singapore, and beyond.</p>
+        <div class="socials">
+          <a aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5 1.13 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.98 0H12.8v2.2h.07c.67-1.26 2.3-2.6 4.73-2.6 5.07 0 6 3.33 6 7.67V24h-5v-7c0-1.67-.03-3.82-2.33-3.82-2.33 0-2.68 1.82-2.68 3.7V24H7.98V8z"/></svg></a>
+          <a aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor"/></svg></a>
+          <a aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a2.8 2.8 0 0 0-2-2C19.3 5 12 5 12 5s-7.3 0-9 .2a2.8 2.8 0 0 0-2 2C1 9 1 12 1 12s0 3 .2 4.8a2.8 2.8 0 0 0 2 2C5 19 12 19 12 19s7.3 0 9-.2a2.8 2.8 0 0 0 2-2C23 15 23 12 23 12s0-3-.2-4.8zM9.8 15.4V8.6l6 3.4-6 3.4z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a>Job matches</a></li>
+          <li><a>Resume Match</a></li>
+          <li><a>Salary explorer</a></li>
+          <li><a>Events</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Employers</h4>
+        <ul>
+          <li><a>For teams</a></li>
+          <li><a>Pricing</a></li>
+          <li><a>Integrations</a></li>
+          <li><a>Customers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a>About</a></li>
+          <li><a>Careers</a></li>
+          <li><a>Press</a></li>
+          <li><a>Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a>Privacy</a></li>
+          <li><a>Terms</a></li>
+          <li><a>Cookies</a></li>
+          <li><a>Security</a></li>
+        </ul>
+      </div>
+      <div class="footer-bar">
+        <span>© 2024 Wanted Lab, Inc.</span>
+        <span>Made in Seoul · English · 한국어 · 日本語</span>
+      </div>
+    </footer>
+  </section>
+
+</div>
+
+</body>
+</html>

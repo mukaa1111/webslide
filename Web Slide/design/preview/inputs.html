@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Form inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:20px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+label{font:var(--font-label-sm);font-weight:600;color:var(--label-strong)}
+input,select,textarea{font:var(--font-body-md);font-weight:500;color:var(--label-strong);background:#fff;border:1px solid var(--line-default);border-radius:8px;padding:12px 14px;outline:0;transition:border-color .15s,box-shadow .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--primary-normal);box-shadow:0 0 0 3px rgba(0,102,255,.18)}
+.hint{font:var(--font-caption);color:var(--label-alternative)}
+.err{color:var(--c-red-500)}
+.check{display:flex;gap:8px;align-items:center;font:var(--font-body-sm);font-weight:500;color:var(--label-normal)}
+.check input{appearance:none;width:18px;height:18px;border:1.5px solid var(--line-strong);border-radius:4px;margin:0;padding:0;display:grid;place-items:center}
+.check input:checked{background:var(--primary-normal);border-color:var(--primary-normal)}
+.check input:checked::after{content:"✓";color:#fff;font-size:12px;font-weight:700}
+</style></head><body>
+<div class="field"><label>Email</label><input value="me@wanted.com"></div>
+<div class="field"><label>Password</label><input type="password" value="········"></div>
+<div class="field"><label>Role</label><select><option>Senior Product Designer</option></select></div>
+<div class="field"><label>Location</label><input value="Seoul, South Korea" style="border-color:var(--primary-normal);box-shadow:0 0 0 3px rgba(0,102,255,.18)"></div>
+<div class="field"><label>Bio</label><textarea rows="2">Designing for career-defining moments.</textarea></div>
+<div class="field"><label style="color:var(--c-red-500)">Years of experience</label><input value="abc" style="border-color:var(--c-red-400)"><span class="hint err">Enter a number between 0–50.</span></div>
+<div class="field" style="grid-column:span 2;gap:10px">
+  <div class="check"><input type="checkbox" checked>Open to remote offers</div>
+  <div class="check"><input type="checkbox">Send me weekly digest emails</div>
+</div>
+</body></html>

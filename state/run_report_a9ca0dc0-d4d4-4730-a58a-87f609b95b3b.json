@@ -1,0 +1,18 @@
+{
+  "run_id": "a9ca0dc0-d4d4-4730-a58a-87f609b95b3b",
+  "started_at": "2026-04-22T06:14:22.888544+00:00",
+  "finished_at": "2026-04-22T06:56:30.347987+00:00",
+  "stats": {
+    "total": 8,
+    "success": 6,
+    "failed": 2,
+    "skipped": 0,
+    "total_slides_uploaded": 89
+  },
+  "parse_success_rate": 75.0,
+  "quarantined": [
+    "01_woowahanmurobosae_ai.md",
+    "02_geminidesigni.md"
+  ],
+  "dead_letter": []
+}

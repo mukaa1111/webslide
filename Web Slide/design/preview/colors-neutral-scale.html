@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Neutral scale</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; }
+  .ramp { display:grid; grid-template-columns: repeat(8, 1fr); gap:6px; }
+  .sw { border-radius:8px; overflow:hidden; border:1px solid var(--line-subtle); }
+  .chip { height:70px; }
+  .meta { padding:6px 8px; font: var(--font-caption); color: var(--label-alternative); }
+  .name { display:block; font: var(--font-label-sm); font-weight:600; color: var(--label-strong); }
+  .dark .meta { color: #c0c0c0 }
+  .dark .name { color:#fff }
+</style></head>
+<body>
+<div class="ramp">
+  <div class="sw"><div class="chip" style="background:var(--c-neutral-0)"></div><div class="meta"><span class="name">0</span>FFFFFF</div></div>
+  <div class="sw"><div class="chip" style="background:var(--c-neutral-50)"></div><div class="meta"><span class="name">50</span>F7F7F8</div></div>
+  <div class="sw"><div class="chip" style="background:var(--c-neutral-100)"></div><div class="meta"><span class="name">100</span>F4F4F5</div></div>
+  <div class="sw"><div class="chip" style="background:var(--c-neutral-200)"></div><div class="meta"><span class="name">200</span>DBDCDF</div></div>
+  <div class="sw"><div class="chip" style="background:var(--c-neutral-400)"></div><div class="meta"><span class="name">400</span>AEB0B6</div></div>
+  <div class="sw dark"><div class="chip" style="background:var(--c-neutral-600)"></div><div class="meta"><span class="name">600</span>70737C</div></div>
+  <div class="sw dark"><div class="chip" style="background:var(--c-neutral-800)"></div><div class="meta"><span class="name">800</span>37383C</div></div>
+  <div class="sw dark"><div class="chip" style="background:var(--c-neutral-950)"></div><div class="meta"><span class="name">950</span>171719</div></div>
+</div>
+</body></html>

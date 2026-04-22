@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;height:260px}
+.tile{display:grid;place-items:center;padding:24px}
+.light{background:#fff;color:#17171A}
+.dark{background:#17171A;color:#fff}
+.wordmark{display:flex;align-items:baseline;gap:14px}
+.w-symbol{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:currentColor;color:inherit}
+.w-symbol img{width:32px;height:32px;filter:invert(1) brightness(10);mix-blend-mode:difference}
+.dark .w-symbol img{filter:none}
+.w-symbol-light img{filter:none}
+.tile .big{font:var(--font-display-2);font-weight:700;letter-spacing:-.04em;font-family:var(--font-display)}
+.tile .sub{font:var(--font-caption);font-weight:500;opacity:.6;margin-top:6px}
+.row{display:flex;flex-direction:column;align-items:center;gap:8px}
+</style></head><body>
+<div class="tile light"><div class="row"><div class="wordmark"><img src="../assets/logos/wanted-symbol.png" style="height:46px;width:auto"><span class="big">wanted</span></div><div class="sub">Horizontal · Black on light</div></div></div>
+<div class="tile dark"><div class="row"><div class="wordmark"><img src="../assets/logos/wanted-symbol.png" style="height:46px;width:auto;filter:invert(1)"><span class="big">wanted</span></div><div class="sub">Horizontal · White on dark</div></div></div>
+</body></html>

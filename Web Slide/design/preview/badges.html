@@ -1,0 +1,33 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Badges & chips</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:20px;background:#fff;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lbl{font:var(--font-label-sm);font-weight:600;color:var(--label-alternative);width:90px;flex-shrink:0}
+.badge{font:var(--font-caption);font-weight:600;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;letter-spacing:0}
+.b-primary{background:var(--c-blue-50);color:var(--c-blue-700)}
+.b-violet{background:var(--c-violet-50);color:var(--c-violet-600)}
+.b-positive{background:var(--c-green-50);color:var(--c-green-600)}
+.b-negative{background:var(--c-red-50);color:var(--c-red-600)}
+.b-neutral{background:var(--surface-muted);color:var(--label-neutral)}
+.b-solid{background:var(--primary-normal);color:#fff}
+.chip{font:var(--font-body-sm);font-weight:600;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line-default);color:var(--label-strong);cursor:pointer}
+.chip.active{background:var(--label-strong);color:#fff;border-color:var(--label-strong)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+</style></head><body>
+<div class="row"><span class="lbl">Status</span>
+  <span class="badge b-positive"><span class="dot"></span>Accepting</span>
+  <span class="badge b-negative"><span class="dot"></span>Closed</span>
+  <span class="badge b-primary">New</span>
+  <span class="badge b-violet">AI match</span>
+  <span class="badge b-neutral">Draft</span>
+  <span class="badge b-solid">HOT</span>
+</div>
+<div class="row"><span class="lbl">Filter</span>
+  <button class="chip active">All</button>
+  <button class="chip">Remote</button>
+  <button class="chip">Full-time</button>
+  <button class="chip">Seoul</button>
+  <button class="chip">$100K+</button>
+</div>
+</body></html>

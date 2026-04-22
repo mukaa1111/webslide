@@ -1,0 +1,15 @@
+{
+  "run_id": "7e80db25-67af-4696-99a6-daf0007f9323",
+  "started_at": "2026-04-22T06:14:22.888544+00:00",
+  "finished_at": "2026-04-22T06:14:31.003009+00:00",
+  "stats": {
+    "total": 2,
+    "success": 2,
+    "failed": 0,
+    "skipped": 0,
+    "total_slides_uploaded": 15
+  },
+  "parse_success_rate": 100.0,
+  "quarantined": [],
+  "dead_letter": []
+}

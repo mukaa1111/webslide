@@ -1,0 +1,427 @@
+/* =============================================================
+   Wanted Design System — colors_and_type.css
+   Derived from the Wanted (원티드) community Figma file.
+   Fonts: Pretendard (primary, self-hosted), Wanted Sans (display/brand).
+   ============================================================= */
+
+/* ----- WEBFONTS -----------------------------------------------
+   Pretendard is the product/UI face (self-hosted OTF files in
+   /fonts). Wanted Sans is the brand display face created by
+   Wanted Lab (wantedsans.com), loaded from cdn.jsdelivr.net.
+---------------------------------------------------------------- */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Thin.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-ExtraLight.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-SemiBold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-ExtraBold.otf") format("opentype");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("fonts/Pretendard-Black.otf") format("opentype");
+}
+
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/complete/WantedSansVariable.min.css");
+
+:root {
+  /* ============================================================
+     COLOR — ATOMIC SCALE
+     The canonical grey/brand ramp used inside the Figma library.
+     All semantic tokens below are mapped from these. Values in rgb()
+     so you can still wrap them with alpha via rgb(... / 0.5).
+  ============================================================ */
+
+  /* Neutral (Cool Grey) — the workhorse */
+  --c-neutral-0:   rgb(255, 255, 255);
+  --c-neutral-50:  rgb(247, 247, 248);
+  --c-neutral-100: rgb(244, 244, 245);
+  --c-neutral-200: rgb(219, 220, 223);
+  --c-neutral-300: rgb(194, 196, 200);
+  --c-neutral-400: rgb(174, 176, 182);
+  --c-neutral-500: rgb(152, 155, 162);
+  --c-neutral-600: rgb(112, 115, 124);   /* signature body grey */
+  --c-neutral-700: rgb(70, 72, 79);
+  --c-neutral-800: rgb(55, 56, 60);
+  --c-neutral-850: rgb(46, 47, 51);
+  --c-neutral-900: rgb(27, 28, 30);
+  --c-neutral-950: rgb(23, 23, 25);      /* near-black body text */
+  --c-neutral-1000: rgb(20, 25, 30);
+  --c-black:       rgb(0, 0, 0);
+
+  /* Brand Blue — primary action color */
+  --c-blue-50:  rgb(234, 242, 254);
+  --c-blue-100: rgb(213, 228, 253);
+  --c-blue-200: rgb(170, 202, 252);
+  --c-blue-300: rgb(127, 177, 251);
+  --c-blue-400: rgb(51, 133, 255);
+  --c-blue-500: rgb(0, 102, 255);        /* PRIMARY */
+  --c-blue-600: rgb(0, 94, 235);
+  --c-blue-700: rgb(0, 78, 194);
+  --c-blue-800: rgb(0, 62, 153);
+
+  /* Violet — secondary brand accent (AI/premium surfaces) */
+  --c-violet-50:  rgb(240, 236, 254);
+  --c-violet-100: rgb(224, 216, 254);
+  --c-violet-400: rgb(151, 71, 255);
+  --c-violet-500: rgb(101, 65, 242);
+  --c-violet-600: rgb(82, 48, 219);
+
+  /* Red / Negative */
+  --c-red-50:  rgb(255, 234, 234);
+  --c-red-100: rgb(255, 212, 212);
+  --c-red-400: rgb(255, 66, 66);
+  --c-red-500: rgb(235, 51, 51);
+  --c-red-600: rgb(198, 40, 40);
+
+  /* Green / Positive */
+  --c-green-50:  rgb(223, 248, 231);
+  --c-green-100: rgb(191, 241, 207);
+  --c-green-400: rgb(0, 191, 64);
+  --c-green-500: rgb(0, 168, 56);
+  --c-green-600: rgb(0, 140, 47);
+
+  /* Yellow / Warning (from sub-service palette) */
+  --c-yellow-50:  rgb(255, 247, 214);
+  --c-yellow-400: rgb(255, 200, 0);
+  --c-yellow-500: rgb(230, 170, 0);
+
+  /* Cyan — supplementary */
+  --c-cyan-500: rgb(0, 152, 178);
+
+
+  /* ============================================================
+     COLOR — SEMANTIC TOKENS (Light mode)
+     Wanted's semantic model is layered:
+       - surface  = page/card backgrounds
+       - line     = borders/dividers
+       - label    = text (with contrast tiers)
+       - primary  = brand action
+       - status   = success / info / caution / negative
+     Colors are expressed with the atomic vars above.
+  ============================================================ */
+
+  /* Surface / Background */
+  --surface-background: var(--c-neutral-0);
+  --surface-subtle:     rgba(112, 115, 124, 0.05);      /* neutral-alpha-50 */
+  --surface-muted:      rgba(112, 115, 124, 0.08);      /* neutral-alpha-80 */
+  --surface-elevated:   var(--c-neutral-0);
+  --surface-inverse:    var(--c-neutral-950);
+  --surface-primary-subtle: var(--c-blue-50);
+  --surface-violet-subtle:  var(--c-violet-50);
+  --surface-negative-subtle: var(--c-red-50);
+  --surface-positive-subtle: var(--c-green-50);
+
+  /* Line / Border */
+  --line-subtle:   rgba(112, 115, 124, 0.12);
+  --line-default:  rgba(112, 115, 124, 0.22);
+  --line-strong:   rgba(112, 115, 124, 0.4);
+  --line-inverse:  rgba(255, 255, 255, 0.22);
+
+  /* Label / Text */
+  --label-strong:   var(--c-neutral-950);    /* headings, primary body */
+  --label-normal:   rgb(23, 23, 25);         /* default body */
+  --label-neutral:  var(--c-neutral-800);    /* secondary body */
+  --label-alternative: var(--c-neutral-600); /* meta, captions */
+  --label-assistive: var(--c-neutral-500);   /* hints, disabled text */
+  --label-disable:  var(--c-neutral-400);
+  --label-inverse:  var(--c-neutral-0);
+  --label-primary:  var(--c-blue-500);       /* links, brand labels */
+  --label-negative: var(--c-red-400);
+  --label-positive: var(--c-green-400);
+
+  /* Primary (action) */
+  --primary-normal:  var(--c-blue-500);
+  --primary-hover:   var(--c-blue-600);
+  --primary-press:   var(--c-blue-700);
+  --primary-subtle:  var(--c-blue-50);
+  --primary-contrast: var(--c-neutral-0);
+
+  /* Status */
+  --status-positive: var(--c-green-400);
+  --status-negative: var(--c-red-400);
+  --status-caution:  var(--c-yellow-400);
+  --status-info:     var(--c-blue-500);
+
+  /* Shadows (Wanted's preferred 3-layer soft shadows) */
+  --shadow-emphasize:
+    0 1px 2px rgba(23, 23, 23, 0.06),
+    0 2px 4px rgba(23, 23, 23, 0.06),
+    0 4px 8px rgba(23, 23, 23, 0.04);
+  --shadow-normal:
+    0 0 1px rgba(23, 23, 23, 0.07),
+    0 1px 2px rgba(23, 23, 23, 0.06);
+  --shadow-strong:
+    0 2px 4px rgba(23, 23, 23, 0.06),
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    0 16px 32px rgba(0, 0, 0, 0.04);
+  --shadow-heavy:
+    0 8px 16px rgba(0, 0, 0, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.12);
+
+
+  /* ============================================================
+     RADII
+     Wanted uses a generous 4-step ladder. Pills appear on
+     most capsule buttons / chips.
+  ============================================================ */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-card: 32px;   /* flagship card radius in the Figma */
+  --radius-pill: 9999px;
+
+
+  /* ============================================================
+     SPACING — 4-pt grid, derived directly from the Figma
+     auto-layout paddings (4, 8, 12, 16, 20, 24, 32, 48, 64, 128).
+  ============================================================ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+
+  /* ============================================================
+     TYPOGRAPHY — FONT STACKS
+     Primary:  Pretendard (Hangul + Latin, self-hosted OTF in /fonts)
+     Display:  Wanted Sans (brand display, also used in logo)
+     Mono:     SF Mono / Consolas fallback
+  ============================================================ */
+  --font-sans:
+    "Pretendard", "Pretendard Variable",
+    -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+
+  --font-display:
+    "Wanted Sans Variable", "Wanted Sans",
+    "Pretendard", sans-serif;
+
+  --font-mono:
+    "SF Mono", ui-monospace, "JetBrains Mono", Menlo, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+
+  /* ============================================================
+     TYPOGRAPHY — TYPE SCALE
+     Reconstructed from the Figma's observed sizes + line-heights.
+     Naming follows Wanted's "title / heading / body / label / caption"
+     hierarchy.
+  ============================================================ */
+
+  /* Display — used on marketing hero / landing heroes */
+  --font-display-1:     72px/1.14  var(--font-display);
+  --font-display-2:     56px/1.18  var(--font-display);
+  --font-display-weight: 700;
+  --font-display-tracking: -0.033em;
+
+  /* Title — page-level headings */
+  --font-title-1:       36px/1.334 var(--font-sans);
+  --font-title-2:       28px/1.358 var(--font-sans);
+  --font-title-3:       24px/1.375 var(--font-sans);
+  --font-title-weight:  700;
+  --font-title-tracking: -0.025em;
+
+  /* Heading — section headings */
+  --font-heading-1:     20px/1.4   var(--font-sans);
+  --font-heading-2:     17px/1.411 var(--font-sans);
+  --font-heading-weight: 600;
+  --font-heading-tracking: -0.019em;
+
+  /* Body */
+  --font-body-lg:       16px/1.5   var(--font-sans);
+  --font-body-md:       15px/1.47  var(--font-sans);
+  --font-body-sm:       14px/1.5   var(--font-sans);
+  --font-body-weight:   500;
+  --font-body-tracking: 0.006em;
+
+  /* Label / Caption */
+  --font-label-md:      13px/1.46  var(--font-sans);
+  --font-label-sm:      12px/1.5   var(--font-sans);
+  --font-caption:       11px/1.45  var(--font-sans);
+  --font-label-weight:  600;
+  --font-caption-weight: 500;
+
+  /* Mono */
+  --font-code:          14px/1.5   var(--font-mono);
+}
+
+
+/* ============================================================
+   DARK THEME
+   (Light is default.) Toggle with `html[data-theme="dark"]` or
+   `.theme-dark`. Token names stay identical — only values flip.
+============================================================ */
+html[data-theme="dark"],
+.theme-dark {
+  --surface-background: var(--c-neutral-950);
+  --surface-subtle:     rgba(255, 255, 255, 0.04);
+  --surface-muted:      rgba(255, 255, 255, 0.06);
+  --surface-elevated:   var(--c-neutral-900);
+  --surface-inverse:    var(--c-neutral-0);
+
+  --line-subtle:   rgba(255, 255, 255, 0.08);
+  --line-default:  rgba(255, 255, 255, 0.14);
+  --line-strong:   rgba(255, 255, 255, 0.28);
+
+  --label-strong:   var(--c-neutral-0);
+  --label-normal:   rgb(234, 234, 237);
+  --label-neutral:  var(--c-neutral-300);
+  --label-alternative: var(--c-neutral-400);
+  --label-assistive: var(--c-neutral-500);
+  --label-inverse:  var(--c-neutral-950);
+
+  --shadow-emphasize: 0 1px 2px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+  --shadow-normal:    0 0 1px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.35);
+  --shadow-strong:    0 2px 4px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.45);
+  --shadow-heavy:     0 8px 16px rgba(0,0,0,0.5), 0 24px 48px rgba(0,0,0,0.6);
+}
+
+
+/* ============================================================
+   GLOBAL RESET + TYPE DEFAULTS
+============================================================ */
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--label-normal);
+  background: var(--surface-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font: var(--font-body-lg);
+  font-weight: var(--font-body-weight);
+  letter-spacing: var(--font-body-tracking);
+  color: var(--label-normal);
+  background: var(--surface-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  color: var(--label-strong);
+  font-weight: var(--font-title-weight);
+  letter-spacing: var(--font-title-tracking);
+  text-wrap: balance;
+}
+h1 { font: var(--font-title-1); font-weight: 700; letter-spacing: var(--font-title-tracking); }
+h2 { font: var(--font-title-2); font-weight: 700; letter-spacing: var(--font-title-tracking); }
+h3 { font: var(--font-title-3); font-weight: 700; letter-spacing: var(--font-title-tracking); }
+h4 { font: var(--font-heading-1); font-weight: 600; letter-spacing: var(--font-heading-tracking); }
+h5 { font: var(--font-heading-2); font-weight: 600; letter-spacing: var(--font-heading-tracking); }
+h6 { font: var(--font-body-lg);   font-weight: 600; letter-spacing: var(--font-body-tracking); }
+
+p {
+  margin: 0 0 1em;
+  color: var(--label-normal);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--label-primary);
+  text-decoration: none;
+  transition: color .15s ease, opacity .15s ease;
+}
+a:hover { opacity: 0.72; }
+
+code, kbd, samp {
+  font: var(--font-code);
+  color: var(--label-strong);
+  background: var(--surface-subtle);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-subtle);
+  margin: var(--space-8) 0;
+}
+
+
+/* ============================================================
+   UTILITY CLASSES
+   Optional helpers for quickly applying brand type presets.
+============================================================ */
+.u-display-1 { font: var(--font-display-1); font-weight: var(--font-display-weight); letter-spacing: var(--font-display-tracking); color: var(--label-strong); }
+.u-display-2 { font: var(--font-display-2); font-weight: var(--font-display-weight); letter-spacing: var(--font-display-tracking); color: var(--label-strong); }
+.u-title-1   { font: var(--font-title-1);   font-weight: 700; letter-spacing: var(--font-title-tracking); color: var(--label-strong); }
+.u-title-2   { font: var(--font-title-2);   font-weight: 700; letter-spacing: var(--font-title-tracking); color: var(--label-strong); }
+.u-title-3   { font: var(--font-title-3);   font-weight: 700; letter-spacing: var(--font-title-tracking); color: var(--label-strong); }
+.u-heading-1 { font: var(--font-heading-1); font-weight: 600; letter-spacing: var(--font-heading-tracking); color: var(--label-strong); }
+.u-heading-2 { font: var(--font-heading-2); font-weight: 600; letter-spacing: var(--font-heading-tracking); color: var(--label-strong); }
+.u-body-lg   { font: var(--font-body-lg);   font-weight: 500; letter-spacing: var(--font-body-tracking); }
+.u-body-md   { font: var(--font-body-md);   font-weight: 500; letter-spacing: var(--font-body-tracking); }
+.u-body-sm   { font: var(--font-body-sm);   font-weight: 500; letter-spacing: var(--font-body-tracking); }
+.u-label-md  { font: var(--font-label-md);  font-weight: 600; color: var(--label-neutral); }
+.u-label-sm  { font: var(--font-label-sm);  font-weight: 600; color: var(--label-neutral); }
+.u-caption   { font: var(--font-caption);   font-weight: 500; color: var(--label-alternative); }
+.u-mono      { font: var(--font-code); }

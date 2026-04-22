@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wanted · Product UI Kit</title>
+<meta name="viewport" content="width=1280">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  /* ===========================================================
+     Wanted Product UI Kit
+     A single reference page assembling the core product-surface
+     components of the Wanted design system. Every token used
+     here comes from colors_and_type.css — no hard-coded colors,
+     no ad-hoc type. Copy any block as-is into a new design.
+  =========================================================== */
+
+  html, body { background: var(--c-neutral-50); }
+  body {
+    font: var(--font-body-md);
+    letter-spacing: var(--font-body-tracking);
+    color: var(--label-normal);
+    padding: 0 0 120px;
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 56px 40px 0;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line-subtle);
+    margin-bottom: 48px;
+  }
+  .page-header h1 {
+    font: var(--font-title-1);
+    font-weight: 700;
+    letter-spacing: var(--font-title-tracking);
+    color: var(--label-strong);
+  }
+  .page-header p {
+    margin: 6px 0 0;
+    font: var(--font-body-md);
+    color: var(--label-alternative);
+    max-width: 520px;
+  }
+  .page-header .meta {
+    font: var(--font-label-sm);
+    font-weight: 600;
+    color: var(--label-alternative);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .page-header .meta strong {
+    display: block;
+    font: var(--font-heading-2);
+    font-weight: 700;
+    color: var(--label-strong);
+    margin-bottom: 2px;
+  }
+
+  /* ---- Section shell -------------------------------------- */
+  section.kit {
+    margin-bottom: 72px;
+  }
+  section.kit > header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+  section.kit > header h2 {
+    font: var(--font-title-3);
+    font-weight: 700;
+    letter-spacing: var(--font-title-tracking);
+    color: var(--label-strong);
+  }
+  section.kit > header .tag {
+    font: var(--font-caption);
+    font-weight: 600;
+    color: var(--label-alternative);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* card panel each spec block lives in */
+  .panel {
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-normal);
+    overflow: hidden;
+  }
+  .panel + .panel { margin-top: 16px; }
+  .panel .stage {
+    padding: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    background:
+      linear-gradient(var(--surface-subtle), var(--surface-subtle)),
+      var(--c-neutral-0);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(112,115,124,0.18) 1px, transparent 0);
+    background-size: 16px 16px;
+    background-color: var(--c-neutral-0);
+  }
+  .panel .stage.col {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .panel .stage.center {
+    justify-content: center;
+  }
+  .panel .caption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line-subtle);
+    background: var(--c-neutral-0);
+    font: var(--font-label-sm);
+    font-weight: 600;
+    color: var(--label-alternative);
+  }
+  .panel .caption code {
+    font: var(--font-caption);
+    font-weight: 500;
+    background: transparent;
+    padding: 0;
+    color: var(--label-neutral);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+
+  /* ===========================================================
+     BUTTONS
+  =========================================================== */
+  .btn {
+    --btn-h: 40px;
+    --btn-px: 16px;
+    --btn-font: var(--font-body-sm);
+    --btn-radius: var(--radius-md);
+    appearance: none;
+    border: 1px solid transparent;
+    background: var(--primary-normal);
+    color: var(--primary-contrast);
+    font: var(--btn-font);
+    font-weight: 600;
+    letter-spacing: var(--font-body-tracking);
+    height: var(--btn-h);
+    padding: 0 var(--btn-px);
+    border-radius: var(--btn-radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease,
+                box-shadow .12s ease, transform .04s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--primary-hover); }
+  .btn:active { background: var(--primary-press); transform: translateY(0.5px); }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.28);
+  }
+  .btn[disabled], .btn.is-disabled {
+    background: var(--c-neutral-200);
+    color: var(--label-disable);
+    cursor: not-allowed;
+  }
+
+  /* variants */
+  .btn.secondary {
+    background: var(--c-neutral-0);
+    color: var(--label-strong);
+    border-color: var(--line-default);
+  }
+  .btn.secondary:hover  { background: var(--surface-subtle); }
+  .btn.secondary:active { background: var(--surface-muted); }
+
+  .btn.tonal {
+    background: var(--c-blue-50);
+    color: var(--primary-normal);
+  }
+  .btn.tonal:hover { background: var(--c-blue-100); }
+
+  .btn.ghost {
+    background: transparent;
+    color: var(--label-strong);
+  }
+  .btn.ghost:hover { background: var(--surface-subtle); }
+
+  .btn.danger {
+    background: var(--c-red-400);
+  }
+  .btn.danger:hover  { background: var(--c-red-500); }
+  .btn.danger:active { background: var(--c-red-600); }
+
+  .btn.inverse {
+    background: var(--c-neutral-950);
+    color: var(--c-neutral-0);
+  }
+  .btn.inverse:hover { background: var(--c-neutral-800); }
+
+  /* sizes */
+  .btn.sm  { --btn-h: 32px; --btn-px: 12px; --btn-font: var(--font-label-md); --btn-radius: var(--radius-sm); }
+  .btn.md  { /* default */ }
+  .btn.lg  { --btn-h: 48px; --btn-px: 20px; --btn-font: var(--font-body-lg); --btn-radius: var(--radius-md); }
+  .btn.xl  { --btn-h: 56px; --btn-px: 24px; --btn-font: var(--font-body-lg); --btn-radius: var(--radius-lg); font-weight: 700; }
+
+  .btn.pill    { --btn-radius: var(--radius-pill); }
+  .btn.block   { width: 100%; }
+
+  .btn .ico {
+    width: 16px; height: 16px; display: inline-block;
+  }
+  .btn.sm .ico { width: 14px; height: 14px; }
+  .btn.lg .ico, .btn.xl .ico { width: 18px; height: 18px; }
+
+  .btn.icon-only {
+    width: var(--btn-h);
+    padding: 0;
+  }
+
+  /* ===========================================================
+     INPUTS
+  =========================================================== */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 220px;
+  }
+  .field > label {
+    font: var(--font-label-md);
+    font-weight: 600;
+    color: var(--label-neutral);
+    display: flex;
+    gap: 6px;
+  }
+  .field .required { color: var(--c-blue-500); }
+  .field .help {
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .field.is-error .help { color: var(--label-negative); }
+
+  .input {
+    appearance: none;
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line-default);
+    background: var(--c-neutral-0);
+    color: var(--label-strong);
+    font: var(--font-body-md);
+    letter-spacing: var(--font-body-tracking);
+    transition: border-color .12s ease, box-shadow .12s ease;
+    box-sizing: border-box;
+  }
+  .input::placeholder { color: var(--label-assistive); }
+  .input:hover  { border-color: var(--line-strong); }
+  .input:focus  {
+    outline: none;
+    border-color: var(--primary-normal);
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.18);
+  }
+  .input[disabled] {
+    background: var(--surface-muted);
+    color: var(--label-disable);
+    cursor: not-allowed;
+  }
+  .field.is-error .input {
+    border-color: var(--c-red-400);
+  }
+  .field.is-error .input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 66, 66, 0.18);
+  }
+
+  /* Input with leading icon */
+  .input-affix {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-affix .ico-lead {
+    position: absolute;
+    left: 14px;
+    width: 16px; height: 16px;
+    color: var(--label-alternative);
+    pointer-events: none;
+  }
+  .input-affix .input-lead { padding-left: 40px; }
+
+  textarea.input {
+    height: auto;
+    min-height: 104px;
+    padding: 12px 14px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  /* Select */
+  select.input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23464850' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
+
+  /* Checkbox / Radio */
+  .check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font: var(--font-body-sm);
+    color: var(--label-strong);
+    cursor: pointer;
+  }
+  .check input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: var(--radius-xs);
+    border: 1.5px solid var(--line-strong);
+    background: var(--c-neutral-0);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background .1s ease, border-color .1s ease;
+  }
+  .check input[type="radio"] { border-radius: var(--radius-pill); }
+  .check input:checked {
+    background: var(--primary-normal);
+    border-color: var(--primary-normal);
+  }
+  .check input[type="checkbox"]:checked::after {
+    content: "";
+    width: 10px; height: 10px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>") center/contain no-repeat;
+  }
+  .check input[type="radio"]:checked::after {
+    content: "";
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c-neutral-0);
+  }
+  .check input:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.22);
+  }
+
+  /* Switch */
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    background: var(--c-neutral-300);
+    cursor: pointer;
+    transition: background .15s ease;
+    flex-shrink: 0;
+  }
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 20px; height: 20px;
+    background: var(--c-neutral-0);
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    transition: transform .15s ease;
+  }
+  .switch input { appearance: none; width: 0; height: 0; margin: 0; padding: 0; }
+  .switch.on { background: var(--primary-normal); }
+  .switch.on::after { transform: translateX(16px); }
+
+  /* ===========================================================
+     BADGES / CHIPS
+  =========================================================== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font: var(--font-caption);
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-muted);
+    color: var(--label-neutral);
+    letter-spacing: 0.01em;
+  }
+  .badge.blue    { background: var(--c-blue-50);   color: var(--c-blue-700); }
+  .badge.violet  { background: var(--c-violet-50); color: var(--c-violet-600); }
+  .badge.green   { background: var(--c-green-50);  color: var(--c-green-600); }
+  .badge.red     { background: var(--c-red-50);    color: var(--c-red-600); }
+  .badge.yellow  { background: var(--c-yellow-50); color: rgb(140, 95, 0); }
+  .badge.solid   { background: var(--c-neutral-950); color: var(--c-neutral-0); }
+  .badge.dot::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: var(--font-label-md);
+    font-weight: 600;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: var(--radius-pill);
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-default);
+    color: var(--label-neutral);
+    cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
+    white-space: nowrap;
+  }
+  .chip:hover { background: var(--surface-subtle); color: var(--label-strong); }
+  .chip.active {
+    background: var(--c-neutral-950);
+    color: var(--c-neutral-0);
+    border-color: var(--c-neutral-950);
+  }
+  .chip .x {
+    width: 14px; height: 14px;
+    display: inline-grid; place-items: center;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+
+  /* ===========================================================
+     AVATAR
+  =========================================================== */
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--c-blue-500);
+    color: var(--c-neutral-0);
+    font: var(--font-body-sm);
+    font-weight: 700;
+    display: inline-grid;
+    place-items: center;
+    letter-spacing: 0;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .avatar.sm { width: 28px; height: 28px; font-size: 11px; }
+  .avatar.lg { width: 56px; height: 56px; font-size: 18px; }
+  .avatar.xl { width: 72px; height: 72px; font-size: 22px; }
+  .avatar.sq { border-radius: var(--radius-md); }
+  .avatar.v  { background: var(--c-violet-500); }
+  .avatar.k  { background: var(--c-neutral-950); }
+  .avatar.g  { background: var(--c-green-500); }
+  .avatar .status {
+    position: absolute;
+    right: -1px; bottom: -1px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--c-green-400);
+    border: 2px solid var(--c-neutral-0);
+  }
+  .avatar-stack { display: inline-flex; }
+  .avatar-stack > * + * { margin-left: -10px; box-shadow: 0 0 0 2px var(--c-neutral-0); }
+
+  /* ===========================================================
+     JOB CARD  (flagship Wanted pattern)
+  =========================================================== */
+  .jcard {
+    background: var(--c-neutral-0);
+    border-radius: var(--radius-3xl);
+    padding: 14px;
+    border: 1px solid var(--line-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .jcard:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+  }
+  .jcard .hero {
+    aspect-ratio: 16/10;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(120% 120% at 0% 0%, #33A0FF 0%, transparent 55%),
+      linear-gradient(135deg, #0066FF 0%, #6541F2 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .jcard .hero .bookmark {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.16);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.22);
+    display: grid; place-items: center;
+    color: #fff;
+    cursor: pointer;
+  }
+  .jcard .body { padding: 4px 6px 6px; display: flex; flex-direction: column; gap: 8px; }
+  .jcard .company {
+    display: flex; align-items: center; gap: 8px;
+    font: var(--font-label-md);
+    font-weight: 600;
+    color: var(--label-alternative);
+  }
+  .jcard .clogo {
+    width: 20px; height: 20px; border-radius: 5px;
+    background: var(--surface-muted);
+    display: grid; place-items: center;
+    font: var(--font-caption); font-weight: 800;
+    color: var(--label-strong);
+  }
+  .jcard h3.title {
+    font: var(--font-heading-1);
+    font-weight: 700;
+    letter-spacing: var(--font-heading-tracking);
+    color: var(--label-strong);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .jcard .meta {
+    display: flex; flex-wrap: wrap; gap: 4px 10px;
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .jcard .meta > span + span::before {
+    content: "·"; margin-right: 10px;
+  }
+  .jcard .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .jcard .foot {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px dashed var(--line-subtle);
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .jcard .foot strong { color: var(--label-strong); font-weight: 700; }
+
+  /* ===========================================================
+     LIST ITEM (thread, message, activity)
+  =========================================================== */
+  .list {
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+  .list .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line-subtle);
+    cursor: pointer;
+  }
+  .list .row:first-child { border-top: 0; }
+  .list .row:hover { background: var(--surface-subtle); }
+  .list .row .main {
+    display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  }
+  .list .row .main .t {
+    font: var(--font-body-md); font-weight: 600;
+    color: var(--label-strong);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .list .row .main .s {
+    font: var(--font-caption);
+    color: var(--label-alternative);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .list .row .trail {
+    font: var(--font-caption);
+    color: var(--label-alternative);
+    text-align: right;
+    display: flex; flex-direction: column; gap: 4px; align-items: flex-end;
+  }
+  .list .row .trail .count {
+    background: var(--primary-normal);
+    color: var(--c-neutral-0);
+    font: var(--font-caption); font-weight: 700;
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+    min-width: 18px;
+    text-align: center;
+  }
+
+  /* ===========================================================
+     ALERT / TOAST / BANNER
+  =========================================================== */
+  .alert {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line-subtle);
+    background: var(--c-neutral-0);
+    font: var(--font-body-sm);
+    color: var(--label-strong);
+  }
+  .alert .ico {
+    width: 20px; height: 20px;
+    color: var(--label-primary);
+    flex-shrink: 0;
+  }
+  .alert .body { flex: 1; min-width: 0; }
+  .alert strong { display: block; font-weight: 700; margin-bottom: 2px; }
+  .alert p { margin: 0; color: var(--label-neutral); font: var(--font-body-sm); }
+  .alert.info     { background: var(--c-blue-50);   border-color: var(--c-blue-100);   }
+  .alert.info     .ico { color: var(--c-blue-500); }
+  .alert.success  { background: var(--c-green-50);  border-color: var(--c-green-100);  }
+  .alert.success  .ico { color: var(--c-green-500); }
+  .alert.warning  { background: var(--c-yellow-50); border-color: rgb(255,230,150); }
+  .alert.warning  .ico { color: rgb(180, 125, 0); }
+  .alert.error    { background: var(--c-red-50);    border-color: var(--c-red-100);    }
+  .alert.error    .ico { color: var(--c-red-500); }
+
+  /* ===========================================================
+     NAV (tabs + sidebar)
+  =========================================================== */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line-subtle);
+    padding: 0 4px;
+  }
+  .tab {
+    font: var(--font-heading-2);
+    font-weight: 600;
+    color: var(--label-alternative);
+    padding: 14px 14px 12px;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    margin-bottom: -1px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tab:hover { color: var(--label-strong); }
+  .tab.active {
+    color: var(--label-strong);
+    border-bottom-color: var(--c-neutral-950);
+  }
+  .tab .count {
+    font: var(--font-caption); font-weight: 700;
+    color: var(--label-alternative);
+    background: var(--surface-muted);
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+  }
+  .tab.active .count {
+    background: var(--primary-subtle);
+    color: var(--primary-normal);
+  }
+
+  .sidenav {
+    width: 240px;
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-lg);
+    padding: 10px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .sidenav .group-label {
+    font: var(--font-caption); font-weight: 700;
+    color: var(--label-alternative);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 10px 10px 6px;
+  }
+  .sidenav .item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius-md);
+    font: var(--font-body-sm);
+    font-weight: 600;
+    color: var(--label-neutral);
+    cursor: pointer;
+  }
+  .sidenav .item .ico { width: 18px; height: 18px; color: var(--label-alternative); }
+  .sidenav .item:hover { background: var(--surface-subtle); color: var(--label-strong); }
+  .sidenav .item.active {
+    background: var(--primary-subtle);
+    color: var(--primary-normal);
+  }
+  .sidenav .item.active .ico { color: var(--primary-normal); }
+  .sidenav .item .count {
+    margin-left: auto;
+    font: var(--font-caption); font-weight: 700;
+  }
+
+  /* ===========================================================
+     PROGRESS
+  =========================================================== */
+  .progress {
+    width: 100%;
+    height: 6px;
+    background: var(--surface-muted);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+  .progress > span {
+    display: block;
+    height: 100%;
+    background: var(--primary-normal);
+    border-radius: inherit;
+  }
+
+  .steps {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .steps .s {
+    flex: 1;
+    height: 4px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-muted);
+  }
+  .steps .s.done { background: var(--primary-normal); }
+  .steps .s.cur  { background: var(--primary-normal); position: relative; }
+  .steps .s.cur::after {
+    content: "";
+    position: absolute; right: -5px; top: -3px;
+    width: 10px; height: 10px;
+    background: var(--primary-normal);
+    border: 2px solid var(--c-neutral-0);
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px var(--primary-normal);
+  }
+
+  /* ===========================================================
+     TOOLTIP
+  =========================================================== */
+  .tooltip {
+    display: inline-flex;
+    padding: 7px 10px;
+    background: var(--c-neutral-950);
+    color: var(--c-neutral-0);
+    border-radius: var(--radius-sm);
+    font: var(--font-caption);
+    font-weight: 600;
+    position: relative;
+  }
+  .tooltip::before {
+    content: "";
+    position: absolute;
+    bottom: -4px; left: 16px;
+    width: 8px; height: 8px;
+    background: var(--c-neutral-950);
+    transform: rotate(45deg);
+  }
+
+  /* ===========================================================
+     MISC — divider / kbd
+  =========================================================== */
+  .kbd {
+    display: inline-grid; place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    font: var(--font-caption); font-weight: 700;
+    color: var(--label-neutral);
+    background: var(--c-neutral-0);
+    border: 1px solid var(--line-default);
+    border-bottom-width: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  /* Icon helpers — renders inline SVGs white on blue etc. */
+  svg.ico { display: inline-block; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="page-header">
+    <div>
+      <h1>Product UI Kit</h1>
+      <p>Core in-product components — buttons, inputs, cards, nav, feedback. Every element is bound to a token in <code>colors_and_type.css</code>; no ad-hoc colors.</p>
+    </div>
+    <div class="meta">
+      <strong>v1.0</strong>
+      Wanted · Product surface
+    </div>
+  </header>
+
+  <!-- ============================================================
+       BUTTONS
+  ============================================================ -->
+  <section class="kit" id="buttons">
+    <header>
+      <h2>Buttons</h2>
+      <span class="tag">.btn  ·  4 sizes  ·  6 variants</span>
+    </header>
+
+    <div class="panel">
+      <div class="stage">
+        <button class="btn">Apply now</button>
+        <button class="btn secondary">Secondary</button>
+        <button class="btn tonal">Tonal</button>
+        <button class="btn ghost">Ghost</button>
+        <button class="btn danger">Withdraw</button>
+        <button class="btn inverse">Inverse</button>
+        <button class="btn" disabled>Disabled</button>
+      </div>
+      <div class="caption">Variants<code>.btn · .secondary · .tonal · .ghost · .danger · .inverse</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage">
+        <button class="btn sm">Small</button>
+        <button class="btn md">Medium</button>
+        <button class="btn lg">Large</button>
+        <button class="btn xl">Extra large</button>
+        <button class="btn pill">Follow</button>
+        <button class="btn secondary pill">Following</button>
+      </div>
+      <div class="caption">Sizes &amp; pill<code>.sm · .md · .lg · .xl · .pill</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage">
+        <button class="btn">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New posting
+        </button>
+        <button class="btn secondary">
+          Share
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+        </button>
+        <button class="btn icon-only secondary" aria-label="Bookmark">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="btn icon-only ghost" aria-label="More">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+        </button>
+      </div>
+      <div class="caption">With icons &amp; icon-only<code>.btn &gt; svg.ico · .icon-only</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       INPUTS
+  ============================================================ -->
+  <section class="kit" id="inputs">
+    <header>
+      <h2>Form fields</h2>
+      <span class="tag">.field  ·  .input  ·  .check  ·  .switch</span>
+    </header>
+
+    <div class="panel">
+      <div class="stage">
+        <div class="field" style="flex:1;min-width:260px">
+          <label>Email<span class="required">*</span></label>
+          <input class="input" placeholder="you@company.com" value="hyejin@wanted.co.kr">
+          <span class="help">We'll use this for job alerts.</span>
+        </div>
+        <div class="field" style="flex:1;min-width:260px">
+          <label>Search</label>
+          <div class="input-affix">
+            <svg class="ico ico-lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input class="input input-lead" placeholder="Product designer, Seoul…">
+          </div>
+        </div>
+        <div class="field is-error" style="flex:1;min-width:260px">
+          <label>Password</label>
+          <input class="input" type="password" value="••••••">
+          <span class="help">8+ characters including a number.</span>
+        </div>
+      </div>
+      <div class="caption">Text inputs · leading icon · error<code>.field &gt; label + .input[+ .help]</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage">
+        <div class="field" style="flex:1;min-width:220px">
+          <label>Years of experience</label>
+          <select class="input">
+            <option>Any</option>
+            <option selected>3–5 years</option>
+            <option>5–10 years</option>
+            <option>10+ years</option>
+          </select>
+        </div>
+        <div class="field" style="flex:2;min-width:320px">
+          <label>Cover letter</label>
+          <textarea class="input" placeholder="Tell us why you're a fit…">I've led design systems at three Series-B+ startups in Seoul and shipped Wanted-style job discovery flows end-to-end.</textarea>
+        </div>
+      </div>
+      <div class="caption">Select &amp; textarea<code>select.input · textarea.input</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage">
+        <label class="check"><input type="checkbox" checked> Remote-friendly roles only</label>
+        <label class="check"><input type="checkbox"> Include contract positions</label>
+        <label class="check"><input type="checkbox" disabled> Visa sponsorship (coming soon)</label>
+        <span style="width:24px"></span>
+        <label class="check"><input type="radio" name="r" checked> Latest</label>
+        <label class="check"><input type="radio" name="r"> Match score</label>
+        <label class="check"><input type="radio" name="r"> Salary</label>
+        <span style="width:24px"></span>
+        <label class="check">
+          <span class="switch on"><input type="checkbox" checked></span>
+          Job alerts
+        </label>
+        <label class="check">
+          <span class="switch"><input type="checkbox"></span>
+          Weekly digest
+        </label>
+      </div>
+      <div class="caption">Checkbox · radio · switch<code>.check · .switch(.on)</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BADGES / CHIPS
+  ============================================================ -->
+  <section class="kit" id="badges">
+    <header>
+      <h2>Badges &amp; chips</h2>
+      <span class="tag">.badge  ·  .chip</span>
+    </header>
+
+    <div class="panel">
+      <div class="stage">
+        <span class="badge blue dot">Hiring now</span>
+        <span class="badge violet">AI-matched</span>
+        <span class="badge green">+15% salary</span>
+        <span class="badge red dot">Closing soon</span>
+        <span class="badge yellow">D-3</span>
+        <span class="badge">Full-time</span>
+        <span class="badge solid">Premium</span>
+      </div>
+      <div class="caption">Status badges<code>.badge[.blue|.violet|.green|.red|.yellow|.solid]</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage">
+        <span class="chip active">All 1,248</span>
+        <span class="chip">Design</span>
+        <span class="chip">Engineering</span>
+        <span class="chip">Product</span>
+        <span class="chip">Marketing</span>
+        <span class="chip">Data</span>
+        <span class="chip">
+          Seoul
+          <span class="x">
+            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </span>
+        </span>
+      </div>
+      <div class="caption">Filter chips<code>.chip[.active]</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AVATAR
+  ============================================================ -->
+  <section class="kit" id="avatars">
+    <header>
+      <h2>Avatars</h2>
+      <span class="tag">.avatar  ·  4 sizes  ·  stack</span>
+    </header>
+    <div class="panel">
+      <div class="stage">
+        <span class="avatar sm">HJ</span>
+        <span class="avatar">HJ</span>
+        <span class="avatar v lg">KM</span>
+        <span class="avatar g xl">SY<span class="status"></span></span>
+        <span class="avatar sq k">W</span>
+        <span style="width:16px"></span>
+        <span class="avatar-stack">
+          <span class="avatar sm">HJ</span>
+          <span class="avatar sm v">KM</span>
+          <span class="avatar sm g">SY</span>
+          <span class="avatar sm k">+4</span>
+        </span>
+      </div>
+      <div class="caption">Circles, square, stacked<code>.avatar[.sm|.lg|.xl][.sq][.v|.k|.g] · .avatar-stack</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       JOB CARDS
+  ============================================================ -->
+  <section class="kit" id="job-cards">
+    <header>
+      <h2>Job card</h2>
+      <span class="tag">.jcard — flagship product surface</span>
+    </header>
+    <div class="panel">
+      <div class="stage" style="background:var(--c-neutral-50);background-image:none;padding:28px">
+        <div class="grid-3" style="width:100%">
+
+          <article class="jcard">
+            <div class="hero">
+              <button class="bookmark" aria-label="Save">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+            <div class="body">
+              <div class="company"><span class="clogo">W</span>Wanted Lab</div>
+              <h3 class="title">Senior Product Designer, Core Discovery</h3>
+              <div class="meta"><span>Seoul · Hybrid</span><span>5+ years</span></div>
+              <div class="tags">
+                <span class="badge blue">Design system</span>
+                <span class="badge">B2C</span>
+              </div>
+              <div class="foot">
+                <span><strong>₩85M–₩120M</strong> / yr</span>
+                <span class="badge green dot">Hiring</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="jcard">
+            <div class="hero" style="background: radial-gradient(120% 120% at 100% 0%, #6541F2 0%, transparent 60%), linear-gradient(135deg, #1B1C1E 0%, #46484F 100%);">
+              <button class="bookmark" aria-label="Save">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+            <div class="body">
+              <div class="company"><span class="clogo">K</span>Kakao Enterprise</div>
+              <h3 class="title">Staff ML Engineer — LLM Platform</h3>
+              <div class="meta"><span>Pangyo · Remote OK</span><span>7+ years</span></div>
+              <div class="tags">
+                <span class="badge violet">AI-matched</span>
+                <span class="badge">Python</span>
+                <span class="badge">GPU</span>
+              </div>
+              <div class="foot">
+                <span><strong>₩120M–₩180M</strong> / yr</span>
+                <span class="badge yellow">D-3</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="jcard">
+            <div class="hero" style="background: radial-gradient(100% 80% at 50% 100%, #00A838 0%, transparent 60%), linear-gradient(135deg, #0066FF 0%, #00BFC4 100%);">
+              <button class="bookmark" aria-label="Save">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+            <div class="body">
+              <div class="company"><span class="clogo">T</span>Toss</div>
+              <h3 class="title">Growth Marketer — Global Expansion</h3>
+              <div class="meta"><span>Seoul · Onsite</span><span>3+ years</span></div>
+              <div class="tags">
+                <span class="badge blue">Relocation</span>
+                <span class="badge">SQL</span>
+              </div>
+              <div class="foot">
+                <span><strong>₩70M–₩95M</strong> / yr</span>
+                <span class="badge blue dot">New</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+      <div class="caption">Job card grid<code>.jcard &gt; .hero + .body</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       NAV
+  ============================================================ -->
+  <section class="kit" id="nav">
+    <header>
+      <h2>Navigation</h2>
+      <span class="tag">.tabs  ·  .sidenav</span>
+    </header>
+
+    <div class="panel">
+      <div class="stage col" style="padding: 0; background: var(--c-neutral-0); background-image: none;">
+        <div class="tabs" style="padding: 0 24px;">
+          <div class="tab active">For you <span class="count">248</span></div>
+          <div class="tab">Bookmarks <span class="count">12</span></div>
+          <div class="tab">Applied <span class="count">4</span></div>
+          <div class="tab">Drafts</div>
+        </div>
+        <div style="padding: 24px; font: var(--font-body-sm); color: var(--label-alternative);">Tab content area.</div>
+      </div>
+      <div class="caption">Horizontal tabs<code>.tabs &gt; .tab[.active]</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage" style="padding: 28px; background: var(--c-neutral-50); background-image:none;">
+        <nav class="sidenav">
+          <div class="group-label">Discover</div>
+          <div class="item active"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</div>
+          <div class="item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Jobs<span class="count">1,248</span></div>
+          <div class="item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 5.8 6.2.5-4.7 4.1L17.5 19 12 15.8 6.5 19l1.6-6.6-4.7-4.1 6.2-.5z"/></svg>Starred<span class="count">12</span></div>
+          <div class="group-label">Career</div>
+          <div class="item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M8 6V4h8v2"/></svg>Applications</div>
+          <div class="item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6 16l4-8 4 6 4-4"/></svg>Resume</div>
+          <div class="item"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</div>
+        </nav>
+      </div>
+      <div class="caption">Sidebar nav<code>.sidenav &gt; .group-label + .item[.active]</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEEDBACK — alerts / progress / tooltip
+  ============================================================ -->
+  <section class="kit" id="feedback">
+    <header>
+      <h2>Feedback</h2>
+      <span class="tag">.alert  ·  .progress  ·  .steps  ·  .tooltip</span>
+    </header>
+
+    <div class="panel">
+      <div class="stage col" style="gap: 12px; background: var(--c-neutral-0); background-image: none;">
+        <div class="alert info">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <div class="body"><strong>3 new matches this week</strong><p>Roles matching "Product Designer, Seoul" were added since your last visit.</p></div>
+        </div>
+        <div class="alert success">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>
+          <div class="body"><strong>Application submitted</strong><p>We notified Wanted Lab — you'll hear back within 7 days.</p></div>
+        </div>
+        <div class="alert warning">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v5M12 18h.01"/></svg>
+          <div class="body"><strong>Profile incomplete</strong><p>Add 2 more experiences to boost your match score by ~30%.</p></div>
+        </div>
+        <div class="alert error">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+          <div class="body"><strong>Upload failed</strong><p>Resume must be PDF, under 10MB.</p></div>
+        </div>
+      </div>
+      <div class="caption">Alerts<code>.alert[.info|.success|.warning|.error]</code></div>
+    </div>
+
+    <div class="panel">
+      <div class="stage col" style="gap: 24px;">
+        <div style="display:flex;flex-direction:column;gap:6px;width:100%">
+          <div style="display:flex;justify-content:space-between;font:var(--font-label-md);font-weight:600;color:var(--label-neutral)"><span>Profile strength</span><span>72%</span></div>
+          <div class="progress"><span style="width:72%"></span></div>
+        </div>
+        <div style="width:100%">
+          <div style="display:flex;justify-content:space-between;font:var(--font-label-md);font-weight:600;color:var(--label-neutral);margin-bottom:10px">
+            <span>Application step</span><span>3 of 5</span>
+          </div>
+          <div class="steps">
+            <span class="s done"></span>
+            <span class="s done"></span>
+            <span class="s cur"></span>
+            <span class="s"></span>
+            <span class="s"></span>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center">
+          <span class="tooltip">Press <span class="kbd" style="color:#fff;background:transparent;border-color:rgba(255,255,255,0.3)">⌘</span>&nbsp;<span class="kbd" style="color:#fff;background:transparent;border-color:rgba(255,255,255,0.3)">K</span> to search</span>
+          <span class="kbd">⌘</span>
+          <span class="kbd">⇧</span>
+          <span class="kbd">K</span>
+        </div>
+      </div>
+      <div class="caption">Progress · stepper · tooltip · kbd<code>.progress · .steps · .tooltip · .kbd</code></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LIST
+  ============================================================ -->
+  <section class="kit" id="list">
+    <header>
+      <h2>List rows</h2>
+      <span class="tag">.list  ·  threads, messages, activity</span>
+    </header>
+    <div class="panel">
+      <div class="stage" style="padding: 28px; background: var(--c-neutral-50); background-image: none;">
+        <div class="list" style="width: 100%">
+          <div class="row">
+            <span class="avatar">W</span>
+            <div class="main">
+              <div class="t">Wanted Lab · Hyejin Park invited you to apply</div>
+              <div class="s">Senior Product Designer, Core Discovery · 2h ago</div>
+            </div>
+            <div class="trail"><span class="count">2</span><span>2h</span></div>
+          </div>
+          <div class="row">
+            <span class="avatar v">KM</span>
+            <div class="main">
+              <div class="t">Kakao Enterprise viewed your profile</div>
+              <div class="s">Your match score increased to 89%</div>
+            </div>
+            <div class="trail"><span>Yesterday</span></div>
+          </div>
+          <div class="row">
+            <span class="avatar g">SY</span>
+            <div class="main">
+              <div class="t">Interview scheduled · Toss</div>
+              <div class="s">Tue, 4 Jun · 14:00–15:00 KST · Remote</div>
+            </div>
+            <div class="trail"><span class="badge blue">Upcoming</span></div>
+          </div>
+          <div class="row">
+            <span class="avatar sq k">N</span>
+            <div class="main">
+              <div class="t">Naver Financial sent you a message</div>
+              <div class="s">"Loved your portfolio — are you open to a coffee chat?"</div>
+            </div>
+            <div class="trail"><span class="count">1</span><span>3d</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">Activity list<code>.list &gt; .row &gt; .main + .trail</code></div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

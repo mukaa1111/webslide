@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>Web Slide — Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="design-system/colors_and_type.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+<style>
+  :root {
+    --page-max: 1280px;
+    --gutter: 40px;
+    --rail-w: 280px;
+  }
+  html, body { background: var(--surface-background); min-height: 100%; }
+  body {
+    font: var(--font-body-md);
+    letter-spacing: var(--font-body-tracking);
+    color: var(--label-normal);
+    margin: 0;
+    overflow: hidden;
+  }
+
+  /* ---- Top bar --------------------------------------------- */
+  .bar {
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in oklab, var(--surface-background) 84%, transparent);
+    backdrop-filter: saturate(140%) blur(16px);
+    border-bottom: 1px solid var(--line-subtle);
+  }
+  .bar-inner {
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) minmax(0, 2fr) minmax(140px, 1fr);
+    align-items: center;
+    gap: 20px;
+    padding: 12px var(--gutter);
+  }
+  .bar-right { justify-self: end; }
+  .back {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--label-neutral);
+    text-decoration: none;
+    padding: 7px 12px 7px 8px;
+    border-radius: var(--radius-pill);
+    font: var(--font-label-md);
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background .12s, color .12s;
+  }
+  .back:hover { background: var(--surface-subtle); color: var(--label-strong); }
+  .back svg { width: 16px; height: 16px; }
+
+  .bar-center {
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 0;
+  }
+  .bar-center .course-title {
+    font: var(--font-heading-2);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--label-strong);
+    max-width: 560px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .bar-center .course-meta {
+    font: var(--font-caption);
+    font-weight: 600;
+    color: var(--label-alternative);
+    display: flex; gap: 10px; align-items: center;
+    margin-top: 2px;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .bar-center .course-meta .dot {
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--label-alternative); opacity: 0.6;
+  }
+
+  .bar-right { display: flex; align-items: center; gap: 4px; }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--label-neutral);
+    border: 0;
+    display: inline-grid; place-items: center;
+    cursor: pointer;
+    transition: background .12s, color .12s;
+  }
+  .icon-btn:hover { background: var(--surface-subtle); color: var(--label-strong); }
+  .icon-btn.is-on {
+    background: var(--primary-subtle);
+    color: var(--primary-normal);
+  }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* progress bar under bar */
+  .prog-wrap {
+    height: 3px;
+    background: var(--surface-subtle);
+    position: relative;
+  }
+  .prog-wrap .prog {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    background: var(--primary-normal);
+    transition: width .3s cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* ---- Stage ---------------------------------------------- */
+  .stage {
+    position: relative;
+    height: calc(100vh - 57px);
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+  }
+  .stage.has-notes { grid-template-columns: 1fr var(--rail-w); }
+
+  .slide-frame {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide {
+    width: min(960px, 92%);
+    max-height: 76vh;
+    padding-bottom: 48px;
+    overflow: hidden;
+    display: none;
+    animation: fadeIn .28s ease;
+  }
+  .slide.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* layouts */
+  .slide h1.s-title {
+    font: var(--font-title-1);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    color: var(--label-strong);
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+  .slide h2.s-title {
+    font: var(--font-title-2);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    color: var(--label-strong);
+    margin-bottom: 20px;
+    text-wrap: balance;
+  }
+  .slide .lead {
+    font: var(--font-body-lg);
+    color: var(--label-neutral);
+    max-width: 720px;
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .slide .bullets {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .slide .bullets li {
+    display: flex; gap: 16px;
+    font: var(--font-heading-1);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.019em;
+    color: var(--label-strong);
+    line-height: 1.45;
+    text-wrap: pretty;
+  }
+  .slide .bullets li .idx {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-normal);
+    background: var(--primary-subtle);
+    border-radius: var(--radius-xs);
+    padding: 2px 8px;
+    margin-top: 10px;
+    height: fit-content;
+  }
+
+  /* title-only */
+  .slide.title-only {
+    text-align: center;
+  }
+  .slide.title-only .eyebrow {
+    font: var(--font-label-md);
+    font-weight: 700;
+    color: var(--primary-normal);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .slide.title-only .big {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 88px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--label-strong);
+    text-wrap: balance;
+  }
+  .slide.title-only .sub {
+    font: var(--font-title-3);
+    font-weight: 500;
+    color: var(--label-alternative);
+    margin-top: 24px;
+  }
+
+  /* code-only */
+  .slide.code-only {
+    width: min(1040px, 94%);
+  }
+  .slide.code-only .code-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .slide.code-only .code-head h2 {
+    font: var(--font-heading-1);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--label-strong);
+  }
+  .slide.code-only .lang-badge {
+    font: var(--font-caption);
+    font-weight: 700;
+    color: var(--primary-normal);
+    background: var(--primary-subtle);
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+  }
+  .slide pre {
+    margin: 0;
+    padding: 28px 32px;
+    background: var(--surface-subtle) !important;
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-xl);
+    font: var(--font-code);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow: auto;
+    max-height: 62vh;
+  }
+  html[data-theme="dark"] .slide pre {
+    background: var(--c-neutral-900) !important;
+    border-color: var(--line-default);
+  }
+  .slide pre code { background: transparent; padding: 0; }
+
+  /* image-focus */
+  .slide.image-focus .fig {
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(120% 80% at 100% 100%, #FFC800 0%, transparent 55%),
+      linear-gradient(135deg, #0066FF 0%, #6541F2 100%);
+    display: grid; place-items: center;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 52px;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    padding: 40px;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .slide.image-focus .cap {
+    margin-top: 16px;
+    font: var(--font-body-md);
+    color: var(--label-alternative);
+    text-align: center;
+  }
+
+  /* ---- Notes rail ------------------------------------------ */
+  .notes {
+    border-left: 1px solid var(--line-subtle);
+    background: var(--surface-subtle);
+    padding: 24px 24px 28px;
+    overflow-y: auto;
+    display: none;
+  }
+  .stage.has-notes .notes { display: block; }
+  .notes h4 {
+    font: var(--font-label-md);
+    font-weight: 700;
+    color: var(--label-alternative);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .notes .nbody {
+    font: var(--font-body-md);
+    color: var(--label-normal);
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .notes .meta {
+    margin-top: 24px; padding-top: 16px;
+    border-top: 1px solid var(--line-subtle);
+    font: var(--font-caption);
+    color: var(--label-alternative);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  /* ---- Nav buttons ----------------------------------------- */
+  .nav-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-background);
+    border: 1px solid var(--line-default);
+    color: var(--label-strong);
+    display: grid; place-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-normal);
+    transition: background .12s, transform .12s;
+    z-index: 5;
+  }
+  .nav-btn:hover { background: var(--surface-subtle); }
+  .nav-btn:active { transform: translateY(-50%) scale(0.96); }
+  .nav-btn.prev { left: 24px; }
+  .nav-btn.next { right: 24px; }
+  .nav-btn svg { width: 20px; height: 20px; }
+  .nav-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
+
+  /* ---- Bottom control ------------------------------------- */
+  .dock {
+    position: absolute;
+    bottom: 20px; left: 50%; transform: translateX(-50%);
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 14px 7px 7px;
+    background: var(--surface-background);
+    border: 1px solid var(--line-default);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-strong);
+    font: var(--font-label-md);
+    font-weight: 600;
+    color: var(--label-neutral);
+    z-index: 5;
+  }
+  .dock .count {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .dock .count strong { color: var(--label-strong); font-weight: 700; }
+  .dock .dock-btn {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--surface-subtle);
+    border: 0; color: var(--label-strong);
+    display: grid; place-items: center; cursor: pointer;
+  }
+  .dock .dock-btn:hover { background: var(--surface-muted); }
+  .dock .dock-btn svg { width: 14px; height: 14px; }
+  .dock .sep {
+    width: 1px; height: 20px;
+    background: var(--line-subtle);
+  }
+  .dock .kbd-hint {
+    font: var(--font-caption);
+    color: var(--label-alternative);
+  }
+  .kbd {
+    font: var(--font-caption); font-weight: 700;
+    color: var(--label-neutral);
+    background: var(--surface-subtle);
+    border: 1px solid var(--line-default);
+    padding: 0 5px;
+    border-radius: var(--radius-xs);
+    margin: 0 2px;
+  }
+
+  @media (max-width: 820px) {
+    .stage.has-notes { grid-template-columns: 1fr; }
+    .notes { display: none !important; }
+    .bar-center .course-meta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <a class="back" href="Home.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      모든 코스
+    </a>
+    <div class="bar-center">
+      <div class="course-title" id="course-title">LLM 에이전트 설계의 6가지 패턴</div>
+      <div class="course-meta">
+        <span id="course-source">Anthropic · AI Engineer Summit 2026</span>
+        <span class="dot"></span>
+        <span>52분 영상 → <span id="slide-count">12</span> slides</span>
+        <span class="dot"></span>
+        <span id="course-date">2026년 4월 18일</span>
+      </div>
+    </div>
+    <div class="bar-right">
+      <button class="icon-btn" id="notes-btn" aria-label="Notes 토글" title="발표자 노트 (N)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+      </button>
+      <button class="icon-btn" id="theme-btn" aria-label="테마 전환">
+        <svg id="theme-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog" id="prog"></div></div>
+</header>
+
+<div class="stage" id="stage">
+  <div class="slide-frame">
+    <!-- Slides injected by JS -->
+    <div id="slides"></div>
+
+    <button class="nav-btn prev" id="prev" aria-label="이전 슬라이드">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-btn next" id="next" aria-label="다음 슬라이드">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+    <div class="dock">
+      <button class="dock-btn" id="dock-prev" aria-label="이전">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="count"><strong id="cur">1</strong> <span style="opacity:0.5">/</span> <span id="total">12</span></span>
+      <button class="dock-btn" id="dock-next" aria-label="다음">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <span class="sep"></span>
+      <span class="kbd-hint"><span class="kbd">←</span><span class="kbd">→</span> 이동</span>
+    </div>
+  </div>
+
+  <aside class="notes" id="notes">
+    <h4>발표자 노트</h4>
+    <div class="nbody" id="note-body"></div>
+    <div class="meta">
+      <div>원본: <a id="src-link" href="#" target="_blank" rel="noreferrer" style="color:var(--primary-normal)">YouTube 보기 ↗</a></div>
+      <div>NotebookLM으로 정리 · .md 자동 파이프라인</div>
+    </div>
+  </aside>
+</div>
+
+<script>
+/* ===========================================================
+   SAMPLE SLIDES — LLM Agent Design Patterns
+   In production this would be fetched from Supabase
+   (knowledge_slides table) via courseId.
+=========================================================== */
+const COURSE = {
+  id: 'llm-agent-patterns',
+  title: 'LLM 에이전트 설계의 6가지 패턴',
+  source: 'Anthropic · AI Engineer Summit 2026',
+  date: '2026년 4월 18일',
+  duration: '52분 영상',
+  link: 'https://youtube.com/watch?v=example',
+  slides: [
+    {
+      layout: 'title-only',
+      eyebrow: 'Anthropic · AI Engineer Summit 2026',
+      title: 'Building Effective Agents',
+      sub: '6가지 패턴으로 읽는 LLM 에이전트 설계',
+      notes: '이 강연은 Anthropic의 엔지니어링 팀이 실제 프로덕션에서 검증한 에이전트 패턴을 정리한 것입니다. 핵심은 “새로운 프레임워크를 쓸 필요가 없다”는 것 — 단순한 구성요소의 조합으로 대부분의 문제가 풀립니다.'
+    },
+    {
+      layout: 'default',
+      title: '왜 지금 에이전트인가',
+      lead: 'LLM의 tool-use 능력이 안정화되면서, 단일 호출 대신 “계획·실행·검증”의 반복 구조가 실용 영역으로 들어왔다.',
+      bullets: [
+        '툴 호출 안정성 ≥ 95% (Claude 3.5 Sonnet 기준)',
+        '비용: 1-shot 대비 3~8배이지만, 정확도 향상폭이 더 큼',
+        '핵심 질문: 언제 체인이고, 언제 에이전트인가'
+      ],
+      notes: '에이전트의 핵심 트레이드오프는 "예측 가능성"과 "성능"의 교환입니다. 예측 가능한 작업은 workflow로, 유연성이 필요한 작업은 agent로 구분해서 접근하세요.'
+    },
+    {
+      layout: 'bullet-list',
+      title: '6가지 패턴 한눈에',
+      bullets: [
+        'Prompt chaining — 단계별로 LLM을 엮는 가장 단순한 형태',
+        'Routing — 입력을 분류해 전문화된 경로로 보낸다',
+        'Parallelization — 독립 작업을 동시에 실행하고 병합',
+        'Orchestrator–workers — 동적으로 하위 작업을 분배',
+        'Evaluator–optimizer — 결과를 반복 평가하며 개선',
+        'Agents — 환경과 상호작용하며 스스로 루프를 만든다'
+      ],
+      notes: '여섯 개 패턴은 점진적 복잡도 순서로 배열되어 있습니다. 위에서부터 시도하세요. 대부분의 문제는 1~3번에서 해결됩니다.'
+    },
+    {
+      layout: 'code-only',
+      title: 'Prompt chaining — 가장 단순한 구조',
+      lang: 'python',
+      code: `def generate_marketing_copy(product: str) -> str:
+    # step 1: draft
+    draft = llm.complete(
+        f"Write marketing copy for: {product}"
+    )
+
+    # step 2: validate — gate before continuing
+    if not passes_quality_check(draft):
+        return "needs_rewrite"
+
+    # step 3: translate for KR market
+    localized = llm.complete(
+        f"Translate to Korean, keep brand voice:\\n{draft}"
+    )
+    return localized`,
+      notes: 'Chaining의 강점은 각 단계를 독립적으로 평가·개선할 수 있다는 점입니다. 중간 gate(검증 단계)를 추가하면 비용을 낮추면서도 품질을 지킬 수 있습니다.'
+    },
+    {
+      layout: 'default',
+      title: 'Routing — 분류 후 분기',
+      lead: '사용자 입력의 "종류"가 다양할 때, 먼저 분류기 LLM으로 경로를 정한다.',
+      bullets: [
+        '예: 고객 문의 → 환불 / 기술지원 / 영업 세 경로',
+        '각 경로는 서로 다른 프롬프트·모델·도구셋을 사용',
+        '분류 정확도가 전체 시스템의 상한선을 정한다'
+      ],
+      notes: 'Routing 패턴에서 가장 흔한 실수는 분류기를 너무 세분화하는 것입니다. 3~5개 정도로 유지하고, 애매한 입력은 기본 경로로 보내는 것이 안정적입니다.'
+    },
+    {
+      layout: 'image-focus',
+      title: 'Orchestrator–workers 구조',
+      figText: 'Orchestrator\n↓ dynamic split ↓\nWorker 1 · Worker 2 · Worker N\n↑ merge ↑',
+      cap: '코드 리뷰 에이전트, 리서치 에이전트 등이 이 구조를 쓴다',
+      notes: '차이점: Parallelization은 분할이 정적(미리 정해져 있음)이고, Orchestrator는 동적(LLM이 분할한다)입니다. 작업 범위가 불확실할 때만 이 패턴을 쓰세요 — 비용이 훨씬 큽니다.'
+    },
+    {
+      layout: 'default',
+      title: 'Evaluator–optimizer',
+      lead: 'LLM이 초안을 만들고, 또 다른 LLM(또는 같은 모델의 다른 역할)이 그것을 평가해 피드백을 주는 루프.',
+      bullets: [
+        '명확한 품질 기준이 있을 때 효과적 (예: 번역, 스타일 가이드)',
+        '평가자는 보통 생성자보다 작은 모델로 충분',
+        '2~3회 반복에서 성능이 plateau — 그 이후는 비용 낭비'
+      ],
+      notes: '평가자-최적화 루프는 무한히 돌지 않도록 iteration 캡을 반드시 두세요. 경험상 3회를 넘으면 개선폭이 측정 오차 수준으로 떨어집니다.'
+    },
+    {
+      layout: 'default',
+      title: '진짜 Agent는 언제 쓰는가',
+      lead: '환경이 변하고, 단계를 미리 정할 수 없으며, 실패 후 다시 시도할 수 있는 맥락일 때 — 그리고 비용이 감당될 때.',
+      bullets: [
+        '코드 수정·실행·검증 루프 (SWE-bench 유형)',
+        '브라우저 자동화: 사전에 경로를 알 수 없음',
+        '장기 실행 리서치: 단계가 10~50개 이상'
+      ],
+      notes: 'Agent는 비용과 지연이 크고 디버깅이 어렵습니다. 가능한 더 단순한 패턴으로 해결할 수 있는지 먼저 검토하세요. “이 문제는 진짜 agent가 필요한가?”를 스스로 세 번 물어보는 걸 추천합니다.'
+    },
+    {
+      layout: 'code-only',
+      title: 'Agent 루프의 뼈대',
+      lang: 'python',
+      code: `def agent_loop(task, max_iter=20):
+    history = [{"role": "user", "content": task}]
+    for _ in range(max_iter):
+        resp = llm.complete(history, tools=TOOLS)
+
+        if resp.stop_reason == "end_turn":
+            return resp.text
+
+        # tool use
+        for call in resp.tool_calls:
+            result = execute_tool(call.name, call.args)
+            history.append({
+                "role": "tool",
+                "tool_call_id": call.id,
+                "content": result,
+            })
+    raise TimeoutError("max iterations reached")`,
+      notes: '이 루프의 핵심은 max_iter 캡과 도구 실패 시 재시도 로직입니다. 프로덕션에서는 관찰가능성(observability)이 무엇보다 중요합니다 — 각 iteration의 입출력을 반드시 로깅하세요.'
+    },
+    {
+      layout: 'default',
+      title: '프레임워크, 써야 하나',
+      lead: 'LangChain, LlamaIndex, CrewAI 같은 프레임워크는 빠른 프로토타이핑에 좋지만 프로덕션에서는 종종 걸림돌이 된다.',
+      bullets: [
+        '장점: 공통 인터페이스, 로깅·재시도 로직이 내장',
+        '단점: 추상화가 많아 디버깅이 어렵고 모델별 최적화가 힘들다',
+        '권장: 직접 짜되, 1~2개 유틸리티만 의존 (예: LangGraph의 상태머신)'
+      ],
+      notes: '"직접 짜되 의존성을 최소화한다"는 것이 Anthropic 팀의 권고입니다. 에이전트는 본질적으로 단순한 루프입니다 — 프레임워크가 제공하는 편의성보다, 디버깅 가능성이 훨씬 중요합니다.'
+    },
+    {
+      layout: 'default',
+      title: '프로덕션에서 꼭 챙길 것',
+      bullets: [
+        '관찰가능성: 모든 LLM 호출의 입출력을 저장',
+        '비용 캡: iteration당, 세션당 두 층으로 설정',
+        '도구 권한: 파일 쓰기·네트워크 접근은 화이트리스트',
+        '휴먼 체크포인트: 되돌릴 수 없는 액션 전에는 승인',
+        '평가셋: 10~50개의 regression 케이스로 배포 전 테스트'
+      ],
+      notes: '이 다섯 가지가 없으면 agent를 프로덕션에 올리지 마세요. 특히 평가셋 없이 배포하면, 다음 모델 업데이트가 silent regression을 가져올 수 있습니다.'
+    },
+    {
+      layout: 'title-only',
+      eyebrow: 'Takeaway',
+      title: '단순한 것부터.',
+      sub: '문제가 workflow로 풀리면 agent를 쓰지 마라.',
+      notes: '오늘의 한 줄 요약입니다. 대부분의 "agent 프로젝트"는 사실 잘 설계된 workflow로 충분합니다.'
+    }
+  ]
+};
+
+/* ===========================================================
+   RENDER
+=========================================================== */
+const slidesEl = document.getElementById('slides');
+const total = COURSE.slides.length;
+document.getElementById('total').textContent = total;
+document.getElementById('slide-count').textContent = total;
+document.getElementById('course-title').textContent = COURSE.title;
+document.getElementById('course-source').textContent = COURSE.source;
+document.getElementById('course-date').textContent = COURSE.date;
+document.getElementById('src-link').href = COURSE.link;
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+COURSE.slides.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'slide ' + (s.layout || 'default') + (i === 0 ? ' active' : '');
+  div.dataset.idx = i;
+
+  let html = '';
+  if (s.layout === 'title-only') {
+    html = `
+      ${s.eyebrow ? `<div class="eyebrow">${esc(s.eyebrow)}</div>` : ''}
+      <div class="big">${esc(s.title)}</div>
+      ${s.sub ? `<div class="sub">${esc(s.sub)}</div>` : ''}
+    `;
+  } else if (s.layout === 'code-only') {
+    html = `
+      <div class="code-head">
+        <h2>${esc(s.title)}</h2>
+        <span class="lang-badge">${esc(s.lang || 'text')}</span>
+      </div>
+      <pre><code class="language-${esc(s.lang || 'text')}">${esc(s.code)}</code></pre>
+    `;
+  } else if (s.layout === 'image-focus') {
+    html = `
+      <h2 class="s-title">${esc(s.title)}</h2>
+      <div class="fig">${esc(s.figText)}</div>
+      ${s.cap ? `<div class="cap">${esc(s.cap)}</div>` : ''}
+    `;
+  } else if (s.layout === 'bullet-list') {
+    const items = (s.bullets || []).map((b, idx) =>
+      `<li><span class="idx">${String(idx + 1).padStart(2, '0')}</span><span>${esc(b)}</span></li>`
+    ).join('');
+    html = `
+      <h2 class="s-title">${esc(s.title)}</h2>
+      <ul class="bullets">${items}</ul>
+    `;
+  } else {
+    // default
+    const lead = s.lead ? `<p class="lead">${esc(s.lead)}</p>` : '';
+    const items = (s.bullets || []).map((b, idx) =>
+      `<li><span class="idx">${String(idx + 1).padStart(2, '0')}</span><span>${esc(b)}</span></li>`
+    ).join('');
+    html = `
+      <h2 class="s-title">${esc(s.title)}</h2>
+      ${lead}
+      ${items ? `<ul class="bullets">${items}</ul>` : ''}
+    `;
+  }
+  div.innerHTML = html;
+  slidesEl.appendChild(div);
+});
+
+/* ===========================================================
+   NAVIGATION
+=========================================================== */
+let cur = 0;
+const params = new URLSearchParams(location.search);
+const initSlide = parseInt(params.get('slide') || '1', 10) - 1;
+if (initSlide >= 0 && initSlide < total) cur = initSlide;
+
+const prog = document.getElementById('prog');
+const curEl = document.getElementById('cur');
+const noteBody = document.getElementById('note-body');
+
+function show(i) {
+  if (i < 0 || i >= total) return;
+  cur = i;
+  document.querySelectorAll('.slide').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  curEl.textContent = i + 1;
+  prog.style.width = ((i + 1) / total * 100) + '%';
+  noteBody.textContent = COURSE.slides[i].notes || '이 슬라이드에는 노트가 없습니다.';
+
+  // update URL without reload
+  const u = new URL(location);
+  u.searchParams.set('slide', i + 1);
+  history.replaceState(null, '', u);
+
+  // prism highlight
+  if (window.Prism) Prism.highlightAllUnder(document.querySelectorAll('.slide')[i]);
+
+  document.getElementById('prev').disabled = i === 0;
+  document.getElementById('next').disabled = i === total - 1;
+}
+
+document.getElementById('prev').addEventListener('click', () => show(cur - 1));
+document.getElementById('next').addEventListener('click', () => show(cur + 1));
+document.getElementById('dock-prev').addEventListener('click', () => show(cur - 1));
+document.getElementById('dock-next').addEventListener('click', () => show(cur + 1));
+
+window.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(cur + 1); }
+  if (e.key === 'Home') { e.preventDefault(); show(0); }
+  if (e.key === 'End') { e.preventDefault(); show(total - 1); }
+  if (e.key.toLowerCase() === 'n') toggleNotes();
+});
+
+// touch swipe
+let tStart = null;
+document.querySelector('.slide-frame').addEventListener('touchstart', e => tStart = e.touches[0].clientX);
+document.querySelector('.slide-frame').addEventListener('touchend', e => {
+  if (tStart == null) return;
+  const dx = e.changedTouches[0].clientX - tStart;
+  if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  tStart = null;
+});
+
+show(cur);
+
+/* ===========================================================
+   NOTES
+=========================================================== */
+const stage = document.getElementById('stage');
+const notesBtn = document.getElementById('notes-btn');
+function toggleNotes() {
+  stage.classList.toggle('has-notes');
+  notesBtn.classList.toggle('is-on', stage.classList.contains('has-notes'));
+}
+notesBtn.addEventListener('click', toggleNotes);
+
+/* ===========================================================
+   THEME
+=========================================================== */
+const root = document.documentElement;
+const themeBtn = document.getElementById('theme-btn');
+const themeIco = document.getElementById('theme-ico');
+const sunPath = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+const moonPath = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+function applyTheme(t) {
+  root.dataset.theme = t;
+  themeIco.innerHTML = t === 'dark' ? sunPath : moonPath;
+  try { localStorage.setItem('ws-theme', t); } catch(e){}
+}
+applyTheme((() => { try { return localStorage.getItem('ws-theme'); } catch(e) { return 'light'; } })() || 'light');
+themeBtn.addEventListener('click', () => applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+</body>
+</html>

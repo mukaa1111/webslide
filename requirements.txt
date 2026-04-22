@@ -1,0 +1,7 @@
+python-frontmatter==1.1.0
+mistune==3.0.2
+supabase>=2.4.0,<2.10.0
+tenacity==8.2.3
+python-dotenv==1.0.1
+chardet==5.2.0
+jsonschema==4.21.1

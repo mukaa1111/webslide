@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Semantic tokens</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding:16px; background:#fff; }
+  .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; }
+  .tok { display:flex; gap:10px; align-items:center; padding:10px; border:1px solid var(--line-subtle); border-radius:10px; }
+  .sw { width:36px; height:36px; border-radius:8px; border:1px solid var(--line-subtle); flex-shrink:0; }
+  .name { font: var(--font-label-sm); font-weight:600; color: var(--label-strong); }
+  .hint { font: var(--font-caption); color: var(--label-alternative); }
+</style></head>
+<body>
+<div class="grid">
+  <div class="tok"><div class="sw" style="background:var(--label-strong)"></div><div><div class="name">label/strong</div><div class="hint">Headings, emphasis</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--label-normal)"></div><div><div class="name">label/normal</div><div class="hint">Default body</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--label-alternative)"></div><div><div class="name">label/alternative</div><div class="hint">Meta, captions</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--primary-normal)"></div><div><div class="name">primary/normal</div><div class="hint">Actions, links</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--status-positive)"></div><div><div class="name">status/positive</div><div class="hint">Success</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--status-negative)"></div><div><div class="name">status/negative</div><div class="hint">Error, destructive</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--surface-subtle)"></div><div><div class="name">surface/subtle</div><div class="hint">Grouped bg wash</div></div></div>
+  <div class="tok"><div class="sw" style="background:var(--surface-primary-subtle)"></div><div><div class="name">surface/primary-subtle</div><div class="hint">Tinted callouts</div></div></div>
+  <div class="tok"><div class="sw" style="background:#fff; border:1px solid var(--line-default)"></div><div><div class="name">line/default</div><div class="hint">Card borders 22%α</div></div></div>
+</div>
+</body></html>

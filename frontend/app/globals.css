@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Pretendard 폰트 ──────────────────────────────────────────────── */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+:root {
+  /* Neutral */
+  --c-neutral-0:    rgb(255,255,255);
+  --c-neutral-50:   rgb(247,247,248);
+  --c-neutral-100:  rgb(244,244,245);
+  --c-neutral-200:  rgb(219,220,223);
+  --c-neutral-600:  rgb(112,115,124);
+  --c-neutral-700:  rgb(70,72,79);
+  --c-neutral-800:  rgb(55,56,60);
+  --c-neutral-850:  rgb(46,47,51);
+  --c-neutral-900:  rgb(27,28,30);
+  --c-neutral-950:  rgb(23,23,25);
+
+  /* Brand */
+  --c-blue-50:  rgb(234,242,254);
+  --c-blue-500: rgb(0,102,255);
+  --c-blue-600: rgb(0,94,235);
+  --c-blue-700: rgb(0,78,194);
+
+  /* Status */
+  --c-green-400:  rgb(0,191,64);
+  --c-red-400:    rgb(255,66,66);
+  --c-yellow-400: rgb(255,200,0);
+
+  /* Semantic */
+  --surface-background:   var(--c-neutral-0);
+  --surface-subtle:       rgba(112,115,124,0.05);
+  --surface-muted:        rgba(112,115,124,0.08);
+  --surface-elevated:     var(--c-neutral-0);
+
+  --line-subtle:   rgba(112,115,124,0.12);
+  --line-default:  rgba(112,115,124,0.22);
+  --line-strong:   rgba(112,115,124,0.40);
+
+  --label-strong:      var(--c-neutral-950);
+  --label-normal:      rgb(23,23,25);
+  --label-neutral:     var(--c-neutral-800);
+  --label-alternative: var(--c-neutral-600);
+  --label-assistive:   rgb(152,155,162);
+  --label-inverse:     var(--c-neutral-0);
+  --label-primary:     var(--c-blue-500);
+  --label-positive:    var(--c-green-400);
+  --label-negative:    var(--c-red-400);
+
+  --primary-normal:   var(--c-blue-500);
+  --primary-hover:    var(--c-blue-600);
+  --primary-press:    var(--c-blue-700);
+  --primary-subtle:   var(--c-blue-50);
+
+  --shadow-normal:    0 0 1px rgba(23,23,23,.07), 0 1px 2px rgba(23,23,23,.06);
+  --shadow-emphasize: 0 1px 2px rgba(23,23,23,.06), 0 2px 4px rgba(23,23,23,.06), 0 4px 8px rgba(23,23,23,.04);
+  --shadow-strong:    0 2px 4px rgba(23,23,23,.06), 0 8px 20px rgba(0,0,0,.08), 0 16px 32px rgba(0,0,0,.04);
+
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-3xl:  24px;
+  --radius-card: 32px;
+  --radius-pill: 9999px;
+
+  --font-sans:    "Pretendard Variable", "Pretendard", -apple-system, sans-serif;
+  --font-display: "Wanted Sans", "Pretendard Variable", sans-serif;
+  --font-mono:    "SF Mono", "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --surface-background: var(--c-neutral-950);
+  --surface-subtle:     rgba(255,255,255,0.05);
+  --surface-elevated:   var(--c-neutral-900);
+  --line-subtle:        rgba(255,255,255,0.08);
+  --line-default:       rgba(255,255,255,0.14);
+  --label-strong:       var(--c-neutral-0);
+  --label-normal:       rgb(240,240,242);
+  --label-neutral:      var(--c-neutral-200);
+  --label-alternative:  rgba(255,255,255,0.45);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  font-family: var(--font-sans);
+  background: var(--surface-background);
+  color: var(--label-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Level badge colors */
+.badge-beginner     { background: var(--c-blue-50);  color: var(--c-blue-600); }
+.badge-intermediate { background: rgba(101,65,242,.1); color: rgb(101,65,242); }
+.badge-advanced     { background: rgba(255,66,66,.1);  color: var(--c-red-400); }
